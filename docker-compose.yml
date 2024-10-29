@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  cards-angular:
+      image: cards-angular
+      build:
+        context: .
+        dockerfile: ./Dockerfile
+      volumes:
+      - .:/home/boilerplate
+      ports:
+      - 4200:4200
