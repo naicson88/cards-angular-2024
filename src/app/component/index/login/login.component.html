@@ -1,0 +1,29 @@
+
+<div class="login-container" style="height: fit-content !important;">
+    <header class="login-header">
+        <div class="login-header-right">
+            <mat-card class="login-header-right-card">
+                <mat-card-content class="login-header-right-card-content">
+                    <!--FORM LOGIN-->
+                    <form class="login-form" [formGroup]="form" (ngSubmit)="onSubmit" *ngIf="isLogin">
+                        <input type="text" placeholder="User name" formControlName="userName" required >    
+                        <input type="password" placeholder="Password" formControlName="password"  required>
+                        <button (click)="onSubmit()" class="login-button" >Login</button>   
+                    </form>
+                      <!--FORM RESEND EMAIL-->
+                    <form class="login-form" [formGroup]="formResend"  *ngIf="isResend">
+                        <input type="email" placeholder="Email"  formControlName="emailResend"  required>    
+                        <button (click)="resendPassword()" class="login-button">Resend Email</button>   
+                    </form>
+
+                    <a href="login?resend=resend" *ngIf="isLogin" >Forgotten Account</a>
+                    <a href="index" *ngIf="isResend">Return</a>
+                    <button class="create-account" (click)="openRegister()">Create New Account</button>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </header>
+</div>
+
+<app-footer></app-footer>
