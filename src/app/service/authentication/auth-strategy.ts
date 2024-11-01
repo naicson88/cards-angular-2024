@@ -18,7 +18,7 @@ export const authStrategyProvider = {
     provider: AUTH_STRATEGY,
     deps: [HttpClient],
     
-    userFactory: (http: HttpClient) => {
+    userFactory: (http: HttpClient): any => {
         switch(environment.authStrategy){
             case 'session':
                 return new SessionAuthStrategy(http);

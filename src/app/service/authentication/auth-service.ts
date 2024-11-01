@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@angular/core";
-import { environment } from "../../util/envirioments/dev-envirioment";
 import { Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, of, tap } from "rxjs";
 import { LoginRequestDTO } from "../../component/index/login/login.component";
 import { AUTH_STRATEGY, AuthStrategy } from "./auth-strategy";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
