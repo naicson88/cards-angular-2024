@@ -3,13 +3,14 @@ import { FooterComponent } from '../../footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/service/auth-service/auth.service';
-import { SpinnerService } from 'src/app/service/spinner.service';
-import { GeneralFunctions } from 'src/app/Util/Utils';
-import { applyLoader } from '../../shared/decorators/Decorators';
+import { AuthService } from '../../../service/authentication/auth-service';
+import { SpinnerService } from '../../../util/Spinner';
+import { GeneralFunctions } from '../../../util/GeneralFunctions';
 import { DialogUtils } from 'src/app/Util/DialogUtils';
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+
+
 
 @Component({
   selector: 'app-login',
