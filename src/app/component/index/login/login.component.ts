@@ -1,21 +1,24 @@
 
 import { FooterComponent } from '../../footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../service/authentication/auth-service';
 import { SpinnerService } from '../../../util/Spinner';
 import { GeneralFunctions } from '../../../util/GeneralFunctions';
-import { DialogUtils } from 'src/app/Util/DialogUtils';
+
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import { DialogUtils } from '../../../util/Dialogs';
+import { applyLoader } from '../../../util/Decorators';
+import { DialogTypeEnum } from '../../../enums/DialogTypeEnum';
 
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FooterComponent, MatCardModule, MatDialog],
+  imports: [FooterComponent, MatCardModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -32,13 +35,18 @@ export class LoginComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private spinner: SpinnerService,
     private dialog: MatDialog
+    
 
-  ) { }
+  ) {
+    this.dialogUtils = new DialogUtils(this.dialog)
+   }
 
   resend:string = "";
   isLogin: boolean = false;
   isResend: boolean = false;
-  dialogUtils = new DialogUtils(this.dialog);  
+  dialogUtils!: DialogUtils
+  badRequest!: boolean;
+
 
   ngOnInit() {
 
@@ -71,8 +79,8 @@ export class LoginComponent implements OnInit {
   isFieldInvalid(field: string) {
     this.verifyBadRequest();
     return (
-      (!this.form.get(field).valid && this.form.get(field).touched) ||
-      (!this.form.get(field).untouched && this.formSubmitAttempt)
+      (!this.form.get(field)?.valid && this.form.get(field)?.touched) ||
+      (!this.form.get(field)?.untouched && this.formSubmitAttempt)
     );
   }
 
@@ -80,17 +88,18 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     
     const loginRequest: LoginRequestDTO = {
-      username: this.f.userName.value,
-      password: this.f.password.value
+      username: this.f?.['userName'].value,
+      password: this.f?.['password'].value
     };
 
     this.authService.login(loginRequest).subscribe(user => {
       this.router.navigate([this.authService.INITIAL_PATH]);
     }, error => {
         if(error.error.msg == "Bad credentials"){
-          this.dialogUtils.errorDialog("Invalid Username / Password");
+         // this.dialogUtils.errorDialog("Invalid Username / Password");
+         this.dialogUtils.showDialog("Invalid Username / Password", DialogTypeEnum.ERROR)
         } else {
-          this.dialogUtils.errorDialog("Something bad happened, try again later!")
+          this.dialogUtils.showDialog("Something bad happened, try again later!", DialogTypeEnum.ERROR)
         }
     }); 
 
@@ -117,10 +126,10 @@ export class LoginComponent implements OnInit {
   @applyLoader()
   resendPassword(){
 
-    let email = this.fr.emailResend.value
+    let email = this.fr?.['emailResend'].value
 
     if(!GeneralFunctions.validateEmail(email)){
-      this.dialogUtils.errorDialog("Please inform a valid Email!")
+      this.dialogUtils.showDialog("Please inform a valid Email!", DialogTypeEnum.ERROR)
       return false;
     }
 
@@ -128,15 +137,15 @@ export class LoginComponent implements OnInit {
 
       this.authService.resendPassword(email).subscribe(response => {
        console.log(response)
-        this.dialogUtils.successDialog("Email sent to " + email + ", access to change your password!");
+        this.dialogUtils.showDialog("Email sent to " + email + ", access to change your password!", DialogTypeEnum.SUCCESS);
         this.return()
       }, error => {
        
-        this.dialogUtils.errorDialog(error.error.msg)   
+        this.dialogUtils.showDialog(error.error.msg, DialogTypeEnum.ERROR)   
       })
     }
     else {
-      this.dialogUtils.errorDialog("Please fill a valid email!");
+      this.dialogUtils.showDialog("Please fill a valid email!", DialogTypeEnum.ERROR);
     }
   }
 

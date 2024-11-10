@@ -14,7 +14,7 @@ import { environment } from "../../../environments/environment";
     private readonly JWT_TOKEN = 'JWT_TOKEN'
     private readonly LOGIN_PATH = '/login'
     private readonly CONFIRM_PATH = '/confirm'
-    private readonly INITIAL_PATH = '/home'
+    readonly INITIAL_PATH = '/home'
 
     userRole : String = '';
     userName: String = ''
