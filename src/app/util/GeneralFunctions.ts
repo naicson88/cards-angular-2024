@@ -29,7 +29,7 @@ export abstract class GeneralFunctions  {
       return formatter.format(value);
     }
 
-    public static rarity(raridade:string) {
+    public static rarity(raridade:string): any {
         if(raridade == null || raridade == undefined)
           return null;
         if(raridade == 'Common')
@@ -119,7 +119,7 @@ export abstract class GeneralFunctions  {
   public static validUser(authService: AuthService, router: Router): Observable<boolean> {
       const result = new Subject<boolean>();
       
-      authService.getCurrentUser().subscribe(userReturned => { 
+      authService.getCurrentUser()?.subscribe(userReturned => { 
 
         const userRole:string = userReturned.role.roleName
           

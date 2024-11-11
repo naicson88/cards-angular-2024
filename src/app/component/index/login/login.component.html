@@ -5,7 +5,7 @@
             <mat-card class="login-header-right-card">
                 <mat-card-content class="login-header-right-card-content">
                     <!--FORM LOGIN-->
-                    <form class="login-form" [formGroup]="form" (ngSubmit)="onSubmit" *ngIf="isLogin">
+                    <form class="login-form" [formGroup]="form" onSubmit="onSubmit" *ngIf="isLogin">
                         <input type="text" placeholder="User name" formControlName="userName" required >    
                         <input type="password" placeholder="Password" formControlName="password"  required>
                         <button (click)="onSubmit()" class="login-button" >Login</button>   
@@ -16,8 +16,8 @@
                         <button (click)="resendPassword()" class="login-button">Resend Email</button>   
                     </form>
 
-                    <a href="login?resend=resend" *ngIf="isLogin" >Forgotten Account</a>
-                    <a href="index" *ngIf="isResend">Return</a>
+                    @if(isLogin){<a href="login?resend=resend" >Forgotten Account</a>}
+                    @if(isResend){<a href="index" >Return</a>}
                     <button class="create-account" (click)="openRegister()">Create New Account</button>
 
                 </mat-card-content>

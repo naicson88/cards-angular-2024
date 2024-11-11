@@ -15,7 +15,7 @@ export class JwtAuthStrategy implements AuthStrategy<Token> {
         localStorage.removeItem(this.JWT_TOKEN)
     }
 
-    getCurrentUser(): Observable<UserDTO> | undefined{
+    getCurrentUser(): Observable<UserDTO> | undefined {
        const token = this.getToken();
        if(!token)
            return undefined

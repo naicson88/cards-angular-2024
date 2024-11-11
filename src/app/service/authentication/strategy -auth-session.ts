@@ -2,7 +2,8 @@ import { Observable, of } from "rxjs";
 import { UserDTO } from "./auth-service";
 import { AuthStrategy } from "./auth-strategy";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../util/envirioments/dev-envirioment";
+import { environment } from "../../../environments/environment";
+
 
 export class SessionAuthStrategy implements AuthStrategy<UserDTO> {
 

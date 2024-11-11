@@ -7,20 +7,39 @@ import { AuthService } from '../../../service/authentication/auth-service';
 import { SpinnerService } from '../../../util/Spinner';
 import { GeneralFunctions } from '../../../util/GeneralFunctions';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogUtils } from '../../../util/Dialogs';
 import { applyLoader } from '../../../util/Decorators';
 import { DialogTypeEnum } from '../../../enums/DialogTypeEnum';
-
-
+import { AUTH_STRATEGY, authStrategyProvider } from '../../../service/authentication/auth-strategy';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { SessionAuthStrategy } from '../../../service/authentication/strategy -auth-session';
+import { JwtAuthStrategy } from '../../../service/authentication/strategy-auth-jwt';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [FooterComponent, MatCardModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  providers:[
+    {
+      provide: AUTH_STRATEGY,
+      useFactory: (http: HttpClient) => {
+        switch (environment.authStrategy) {
+          case 'session':
+            return new SessionAuthStrategy(http);
+          case 'token':
+            return new JwtAuthStrategy();
+          default:
+            throw new Error('Auth strategy not supported');
+        }
+      },
+      deps: [HttpClient],
+    },
+  ]
 })
 export class LoginComponent implements OnInit {
   
@@ -35,7 +54,6 @@ export class LoginComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private spinner: SpinnerService,
     private dialog: MatDialog
-    
 
   ) {
     this.dialogUtils = new DialogUtils(this.dialog)
@@ -124,8 +142,7 @@ export class LoginComponent implements OnInit {
   }
 
   @applyLoader()
-  resendPassword(){
-
+  resendPassword() :any {
     let email = this.fr?.['emailResend'].value
 
     if(!GeneralFunctions.validateEmail(email)){

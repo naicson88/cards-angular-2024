@@ -1,8 +1,4 @@
 
-import { WarningDialogComponent } from "../component/dialogs/warning-dialog/warning-dialog.component";
-import { ErrorDialogComponent } from "../component/dialogs/error-dialog/error-dialog.component";
-import { SuccessDialogComponent } from "../component/dialogs/success-dialog/success-dialog.component";
-import { InfoDialogComponent } from "../component/dialogs/info-dialog/info-dialog/info-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogTypeEnum } from "../enums/DialogTypeEnum";
 import { DialogComponent } from "../component/dialog/dialog.component";

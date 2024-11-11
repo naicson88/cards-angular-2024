@@ -45,6 +45,7 @@ a {
     color: #222222;
     text-decoration: none;
     outline: none !important;
+    cursor: pointer;
 }
 a, .btn {
     text-decoration: none !important;

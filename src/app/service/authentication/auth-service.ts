@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
+import { inject, Inject, Injectable } from "@angular/core";
 import { Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, of, tap } from "rxjs";
@@ -20,6 +20,7 @@ import { environment } from "../../../environments/environment";
     userName: String = ''
     user: any;
     base_url = environment.devCardsMain
+
 
     constructor( 
         private router: Router, 
@@ -49,14 +50,14 @@ import { environment } from "../../../environments/environment";
         this.router.navigate(['/index'])
     }
 
-    isLoggedIn(): Observable<boolean> {
+    isLoggedIn(): Observable<boolean> | undefined{
         return this.auth.getCurrentUser()?.pipe(
             map(user => !!user),
             catchError(() => of(false))
         )
     }
 
-    getCurrentUser(): Observable<UserDTO>{
+    getCurrentUser(): Observable<UserDTO> | undefined{
         return this.auth.getCurrentUser();
     }
 
@@ -65,7 +66,7 @@ import { environment } from "../../../environments/environment";
         this.router.navigate(["/index"])
       }
     
-    getCurrentUser$(): Observable<UserDTO>{
+    getCurrentUser$(): Observable<UserDTO> | undefined{
         return this.auth.getCurrentUser();
       }
     

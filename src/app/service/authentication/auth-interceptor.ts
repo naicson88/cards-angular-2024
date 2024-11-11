@@ -8,7 +8,9 @@ import { AUTH_STRATEGY } from "./auth-strategy";
 import { environment } from "../../../environments/environment";
 import { request } from "express";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
