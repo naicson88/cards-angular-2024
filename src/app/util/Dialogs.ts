@@ -11,6 +11,8 @@ export class DialogUtils {
         this.dialog.open(DialogComponent, {
             data: { message, type }
         })
+
+        //AFTER CLOSE...
     }
 
     // public  warningDialog(warningMessage:string){

@@ -29,23 +29,9 @@ export const authStrategyProvider = {
         
         switch(environment.authStrategy){
             case 'session':
-                console.log("SESSION STRATEGY")
                 return new SessionAuthStrategy(http);
             case 'token':
-                console.log("TOKEN STRATEGY")
                 return new JwtAuthStrategy();
         }
     }
 }
-
-// @NgModule({
-//     imports: [CommonModule, HttpClientModule],
-//     providers: [
-//       {
-//         provide: AUTH_STRATEGY,
-//         useValue: authStrategyProvider, // Você pode usar useClass, useValue, etc., dependendo de como quer fornecer a implementação
-//       },
-//     ],
-//     bootstrap: [AppComponent]
-//   })
-//   export class AuthModule {}

@@ -7,7 +7,7 @@ import { AuthService } from '../../../service/authentication/auth-service';
 import { SpinnerService } from '../../../util/Spinner';
 import { GeneralFunctions } from '../../../util/GeneralFunctions';
 
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogUtils } from '../../../util/Dialogs';
 import { applyLoader } from '../../../util/Decorators';
@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private activeRoute: ActivatedRoute,
     private spinner: SpinnerService,
     private dialog: MatDialog
 
@@ -110,15 +109,19 @@ export class LoginComponent implements OnInit {
       password: this.f?.['password'].value
     };
 
-    this.authService.login(loginRequest).subscribe(user => {
-      this.router.navigate([this.authService.INITIAL_PATH]);
-    }, error => {
-        if(error.error.msg == "Bad credentials"){
-         // this.dialogUtils.errorDialog("Invalid Username / Password");
-         this.dialogUtils.showDialog("Invalid Username / Password", DialogTypeEnum.ERROR)
+    console.log(loginRequest)
+
+    this.authService.login(loginRequest).subscribe({
+      next: (user) => {
+        this.router.navigate([this.authService.INITIAL_PATH]);
+      },
+      error: (error) =>{
+        if(error.error.msg == "Bad credentials") {
+            this.dialogUtils.showDialog("Invalid Username / Password", DialogTypeEnum.ERROR)
         } else {
-          this.dialogUtils.showDialog("Something bad happened, try again later!", DialogTypeEnum.ERROR)
-        }
+            this.dialogUtils.showDialog("Something bad happened, try again later!", DialogTypeEnum.ERROR)
+          }
+      }
     }); 
 
   }
