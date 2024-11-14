@@ -1,22 +1,25 @@
 
 import { FooterComponent } from '../../footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../service/authentication/auth-service';
 import { SpinnerService } from '../../../util/Spinner';
 import { GeneralFunctions } from '../../../util/GeneralFunctions';
 
-import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, inject, OnInit } from '@angular/core';
 import { DialogUtils } from '../../../util/Dialogs';
 import { applyLoader } from '../../../util/Decorators';
-import { DialogTypeEnum } from '../../../enums/DialogTypeEnum';
 import { AUTH_STRATEGY, authStrategyProvider } from '../../../service/authentication/auth-strategy';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { SessionAuthStrategy } from '../../../service/authentication/strategy -auth-session';
 import { JwtAuthStrategy } from '../../../service/authentication/strategy-auth-jwt';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogTypeEnum } from '../../../enums/DialogTypeEnum';
+import { DialogComponent } from '../../dialog/dialog.component';
+
+
 
 @Component({
   selector: 'app-login',
@@ -101,6 +104,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  readonly dialog2 = inject(MatDialog);
   @applyLoader()
   onSubmit() {
     
@@ -119,7 +123,10 @@ export class LoginComponent implements OnInit {
         if(error.error.msg == "Bad credentials") {
             this.dialogUtils.showDialog("Invalid Username / Password", DialogTypeEnum.ERROR)
         } else {
-            this.dialogUtils.showDialog("Something bad happened, try again later!", DialogTypeEnum.ERROR)
+            this.dialog2.open(DialogComponent, {
+              data: {message: "Something bad happened, try again later!", type: DialogTypeEnum.ERROR}
+            })
+           // this.dialogUtils.showDialog("Something bad happened, try again later!", DialogTypeEnum.ERROR)
           }
       }
     }); 
@@ -127,7 +134,6 @@ export class LoginComponent implements OnInit {
   }
 
   verifyBadRequest() {
- 
     let url = window.location.href;
 
     if (url.includes('/login;data=true')) {

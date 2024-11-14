@@ -6,7 +6,7 @@
                 <mat-card-content class="login-header-right-card-content">
                     <!--FORM LOGIN-->
                     @if(isLogin){ 
-                    <form class="login-form" [formGroup]="form" onSubmit="onSubmit">
+                    <form class="login-form" [formGroup]="form" >
                         <input type="text" placeholder="User name" formControlName="userName" required >    
                         <input type="password" placeholder="Password" formControlName="password"  required>
                         <button (click)="onSubmit()" class="login-button" >Login</button>                    
@@ -21,7 +21,7 @@
                     }
                     
                     @if(isLogin){<a href="login?resend=resend" style="color: brown;"> <b>Forgotten Account</b> </a>}
-                    @if(isResend){<a href="index" >Return</a>}
+                    @if(isResend){<a href="index" style="color: brown;">Return</a>}
                     <button class="create-account" (click)="openRegister()">Create New Account</button>
 
                 </mat-card-content>
