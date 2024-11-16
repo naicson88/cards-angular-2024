@@ -1,30 +1,25 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Inject, Injectable, OnInit } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { catchError, Observable, throwError } from "rxjs";
 import { AuthService } from "./auth-service";
 import { JwtAuthStrategy } from "./strategy-auth-jwt";
 import { AUTH_STRATEGY } from "./auth-strategy";
 import { environment } from "../../../environments/environment";
-import { request } from "express";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(
-        private router: Router, 
-        private authService: AuthService, 
-        @Inject(AUTH_STRATEGY) private jwt: JwtAuthStrategy
-    ) { }
+  constructor(
+      private router: Router, 
+      private authService: AuthService, 
+      @Inject(AUTH_STRATEGY) private jwt: JwtAuthStrategy
+  ) { }
     
-    whiteList = ['/login','/confirmation','register']
+  whiteList = ['/login','/confirmation','register']
    
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-       
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // DEPOIS IMPLEMENTAR ESTRATEGIA DE SESSION
-
        if(environment.authStrategy === 'token'){
 
             const token = this.jwt.getToken()

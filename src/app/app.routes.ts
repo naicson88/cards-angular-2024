@@ -15,6 +15,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent},
     { path: '', redirectTo: 'index', pathMatch: 'full' },
     { path: '**', redirectTo: 'index', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent }
 
+
+    { path: 'home', component: HomeComponent }
 ];
