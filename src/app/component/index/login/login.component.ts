@@ -117,9 +117,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(loginRequest).subscribe({
       next: (user) => {
+        console.log(user)
         this.router.navigate([this.authService.INITIAL_PATH]);
       },
       error: (error) =>{
+        console.log(error)
         if(error.error.msg == "Bad credentials") {
             this.dialogUtils.showDialog("Invalid Username / Password", DialogTypeEnum.ERROR)
         } else {

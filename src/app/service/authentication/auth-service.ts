@@ -34,9 +34,11 @@ import { environment } from "../../../environments/environment";
     }
 
     login(loginRequest: LoginRequestDTO): Observable<UserDTO>{
-        return this.http.post<any>(this.base_url+`auth/login`, loginRequest)
+        return this.http.post<any>(this.base_url+`/auth/login`, loginRequest)
             .pipe(tap(user => {
-                this.auth.doLoginUser(user)
+                console.log(user)
+                localStorage.setItem(this.JWT_TOKEN, user.accessToken)
+               // this.auth.doLoginUser(user)
             }));
     }
 
@@ -110,4 +112,5 @@ import { environment } from "../../../environments/environment";
     verificationToken!:string
     maxDateValidation!:Date
     isEmailConfirmed!:boolean
+    accessToken!: string
   }
