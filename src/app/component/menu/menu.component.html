@@ -1,0 +1,100 @@
+
+@if(!isLogin && !isRegister && !isIndex && !isConfirmation && !isConfirmed && !isMaintenence){
+<div>
+        
+    <link href="https://fonts.googleapis.com/css?family=Arvo&display=swap" rel="stylesheet">
+    <div id="divBg" style="background: url('..\\..\\assets\\img\\bg.jpg') ;background-repeat:no-repeat;height: 200px;">
+     <!--<img src="..\..\assets\img\img.jpg" alt="" width="100%" height="150px" >--> 
+      
+     <div class="search" >
+       <input type="text" placeholder="Search here..."  [matAutocomplete]="auto"  [formControl]="dataCtrl" (keyup)="generalSearch($event)" #generalSearchInput>
+       <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let data of filteredData | async" [value]="data?.name" style="margin-top: 3px; margin-bottom: 3px;" (click)="redirectToPage(data)">
+          <img  class="example-option-img" aria-hidden [src]="data.img" height="65px" width="40px" > &nbsp;
+          <span>{{data?.name}}</span> 
+          
+         @if(data.setCode?.length > 0){ <small> | SetCode: {{data?.setCode}}</small> }
+
+        </mat-option>
+      </mat-autocomplete>
+       <button (click)="clickedGeneralSearch(generalSearchInput.value)"><mat-icon>search</mat-icon></button>
+     </div>
+  
+     <div id="iconAccount"  style="border: solid thin  blue;">
+     
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <span class="material-icons" style="size: 15px; color: darkblue;">
+            account_circle
+            </span>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>account_circle</mat-icon>
+            <span (click)="goToAccountManage()">Account Maneger</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon>
+            <span style="color: red;" (click)='logout()'><b>Logout</b> </span>
+          </button>
+        </mat-menu>
+        
+     </div>
+  
+     <div id="div-buttons">
+      <button type="button" class="btn" style="background: #28a745; color: white" 
+      [routerLink]="['/userdeck-details/', 'new-deck']" (click)="storeDeckId(0)">New Deck</button> &nbsp;
+  
+      <button type="button" class="btn" [routerLink]="['/user-setcollection-cards/', 'new-set-collection']" (click)="storeDeckId(0)"
+      style="background: #17a2b8; color: white">New Collection</button>
+     </div>
+  
+    </div>
+    <nav role="navigation" class="primary-navigation" >
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/usercollection/cards" >My Collection</a>
+          <ul class="dropdown">
+            <li><a href="/usercollection/cards">Cards</a></li>
+            <li><a href="/usercollection/decks">My Sets</a></li>
+            <li><a href="/usercollection/transfer">Transfer Cards</a></li>
+          </ul>
+        </li>
+        <li><a href="/cards-search">Search Cards</a>
+          <!-- <ul class="dropdown">
+            <li><a href="/cards-search">Search</a></li>
+            <li><a href="#">All Cards</a></li>
+            <li><a href="#">Trap Cards</a></li>
+            <li><a href="#">Magic Cards</a></li>
+          </ul> -->
+        </li>
+        <li><a href="/decks">Konami's Sets</a>
+        <!-- <ul class="dropdown">
+          <li><a href="/decks">Decks</a></li>
+          <li><a href="#">Boxes</a></li>
+          <li><a href="/tins">Tins Cards</a></li>
+        </ul> -->
+  
+        </li>
+        <li><a href="/archetypes">Archetypes</a></li>
+        @if(isAdminOrModerator){
+            <li  id="idAdmin"><a href="/admin-dashboard" style="color: yellow;">Administration</a> 
+                <!--<ul class="dropdown">
+              <li><a href="">New Komami Deck</a></li>
+                <li><a href="">New Card</a></li>
+                 <li><a href="#">Tins Sets</a></li>
+                <li><a href="#">Boxes</a></li> 
+              </ul>-->
+            </li>
+        }
+       
+      </ul>
+  
+    </nav>
+    <div id="subNav" style="height: 30px; background-color: rgb(145, 219, 177);">
+  
+    </div>
+  
+</div>
+} 
+     

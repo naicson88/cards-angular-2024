@@ -1,14 +1,16 @@
 import { inject, Inject, Injectable } from "@angular/core";
 import { Router } from '@angular/router';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpRequest } from "@angular/common/http";
 import { catchError, map, Observable, of, tap } from "rxjs";
 import { LoginRequestDTO } from "../../component/index/login/login.component";
 import { AUTH_STRATEGY, AuthStrategy } from "./auth-strategy";
 import { environment } from "../../../environments/environment";
+import { Token } from "./Token";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
+
   export class AuthService {
     
     private readonly JWT_TOKEN = 'JWT_TOKEN'
@@ -100,6 +102,13 @@ import { environment } from "../../../environments/environment";
   getIpAddress(): Observable<string> {
     return this.http.get<any>("http://api.ipify.org/?format=json").pipe(map(res => res.ip));
   }
+
+  
+   addToken(request: HttpRequest<any>, token:string) {
+    return request.clone({
+        setHeaders: { 'Authorization' : `Bearer ${token}` }
+   })
+}
 
   }
 

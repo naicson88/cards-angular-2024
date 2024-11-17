@@ -1,6 +1,6 @@
 import { Observable } from "rxjs"
 import { UserDTO } from "./auth-service"
-import { InjectionToken, NgModule } from "@angular/core";
+import { Component, InjectionToken, NgModule } from "@angular/core";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { JwtAuthStrategy } from "./strategy-auth-jwt";
 import { SessionAuthStrategy } from "./strategy -auth-session";
@@ -17,21 +17,41 @@ export interface AuthStrategy<T> {
 
 export const AUTH_STRATEGY = new InjectionToken<AuthStrategy<any>>('AuthStrategy');
 
-
-export const authStrategyProvider = {
-    // providers: [{
-    //     provide: AUTH_STRATEGY,
-    //     useValue: ''
-    // }],
-    deps: [HttpClient],
+// export const authStrategyProvider = {
+//     // providers: [{
+//     //     provide: AUTH_STRATEGY,
+//     //     useValue: ''
+//     // }],
+//     deps: [HttpClient],
     
-    userFactory: (http: HttpClient): any => {
-        
-        switch(environment.authStrategy){
+//     userFactory: (http: HttpClient): any => {
+//         debugger
+//         switch(environment.authStrategy){
+//             case 'session':
+//                 return new SessionAuthStrategy(http);
+//             case 'token':
+//                 return new JwtAuthStrategy();
+//         }
+//     }
+// }
+
+@NgModule({
+    imports: [HttpClientModule], // Certifique-se de que o HttpClientModule está importado
+    providers: [
+      {
+        provide: AUTH_STRATEGY,
+        useFactory: (http: HttpClient) => {
+          switch (environment.authStrategy) {
             case 'session':
-                return new SessionAuthStrategy(http);
+              return new SessionAuthStrategy(http);
             case 'token':
-                return new JwtAuthStrategy();
-        }
-    }
-}
+              return new JwtAuthStrategy();
+            default:
+              throw new Error('Auth strategy not supported');
+          }
+        },
+        deps: [HttpClient],
+      },
+    ],
+  })
+  export class AuthModule {}

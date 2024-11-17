@@ -2,7 +2,7 @@
 import { FooterComponent } from '../../footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../service/authentication/auth-service';
 import { SpinnerService } from '../../../util/Spinner';
 import { GeneralFunctions } from '../../../util/GeneralFunctions';
@@ -10,7 +10,7 @@ import { GeneralFunctions } from '../../../util/GeneralFunctions';
 import { Component, inject, OnInit } from '@angular/core';
 import { DialogUtils } from '../../../util/Dialogs';
 import { applyLoader } from '../../../util/Decorators';
-import { AUTH_STRATEGY, authStrategyProvider } from '../../../service/authentication/auth-strategy';
+import { AUTH_STRATEGY } from '../../../service/authentication/auth-strategy';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { SessionAuthStrategy } from '../../../service/authentication/strategy -auth-session';

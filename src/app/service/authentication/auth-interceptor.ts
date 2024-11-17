@@ -4,8 +4,9 @@ import { Router } from "@angular/router";
 import { catchError, Observable, throwError } from "rxjs";
 import { AuthService } from "./auth-service";
 import { JwtAuthStrategy } from "./strategy-auth-jwt";
-import { AUTH_STRATEGY } from "./auth-strategy";
+import { AUTH_STRATEGY, AuthStrategy } from "./auth-strategy";
 import { environment } from "../../../environments/environment";
+import { Token } from "./Token";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,22 +15,22 @@ export class AuthInterceptor implements HttpInterceptor {
       private router: Router, 
       private authService: AuthService, 
       @Inject(AUTH_STRATEGY) private jwt: JwtAuthStrategy
-  ) { }
+  ) {}
     
-  whiteList = ['/login','/confirmation','register']
+  whiteList = ['/login','/confirmation','register', "confirm"]
    
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // DEPOIS IMPLEMENTAR ESTRATEGIA DE SESSION
        if(environment.authStrategy === 'token'){
-          
-            const token = this.getToken()
+            
+            const token = this.jwt.getToken()
             const url = window.location.href
 
             if(token){
                 if(url.includes("/index"))
                     this.router.navigate(['/home'])
 
-                req = this.addToken(req, token)
+                req = this.authService.addToken(req, token)
             } 
 
             else if(this.whiteList.some(wl => !url.includes(wl))) {
@@ -75,13 +76,5 @@ export class AuthInterceptor implements HttpInterceptor {
 
        return next.handle(req);
     }
-
-    private addToken(request: HttpRequest<any>, token:string){
-        return request.clone({
-            setHeaders: { 'Authorization' : `Bearer ${token}` }
-       })
-    }
-
-    getToken(){ return localStorage.getItem('JWT_TOKEN')}
     
 }
