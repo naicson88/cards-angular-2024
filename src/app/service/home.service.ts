@@ -1,18 +1,26 @@
+
 import { HttpClient } from "@angular/common/http"
 import { environment } from "../../environments/environment"
 import { Router } from "@angular/router"
-import { catchError } from "rxjs"
-
+import { catchError, Observable } from "rxjs"
+import { Injectable } from "@angular/core"
+import { HomeDTO } from "../home/home.component"
+@Injectable({
+  providedIn: 'root'
+})
 export class HomeService {
 
-    constructor(private http: HttpClient, private router: Router ) {}
+  constructor(private http: HttpClient, private router: Router ) {}
   
-    base_url = environment.devCardsMain
-  
-    public loadHomeInfo() {
-      return this.http.get<any>(this.base_url+`/home/info`) 
-    //   .pipe(
-    //     catchError(HandleErros.handleError)
-    //   )   
-    }
+  base_url = environment.devCardsMain
+
+  public loadHomeInfo() :Observable<HomeDTO> {
+   
+    return  this.http.get<HomeDTO>(this.base_url+`/home/info`) 
+    // .pipe(
+    //   catchError(HandleErros.handleError)
+    // )   
   }
+
+
+}

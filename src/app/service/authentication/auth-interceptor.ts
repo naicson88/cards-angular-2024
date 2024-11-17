@@ -21,8 +21,8 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // DEPOIS IMPLEMENTAR ESTRATEGIA DE SESSION
        if(environment.authStrategy === 'token'){
-
-            const token = this.jwt.getToken()
+          
+            const token = this.getToken()
             const url = window.location.href
 
             if(token){
@@ -81,5 +81,7 @@ export class AuthInterceptor implements HttpInterceptor {
             setHeaders: { 'Authorization' : `Bearer ${token}` }
        })
     }
+
+    getToken(){ return localStorage.getItem('JWT_TOKEN')}
     
 }

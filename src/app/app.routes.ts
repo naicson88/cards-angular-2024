@@ -13,8 +13,8 @@ export const routes: Routes = [
     },
     { path: 'confirm-email', component: EmailConfirmationComponent},
     { path: 'register', component: RegisterComponent},
-    { path: '', redirectTo: 'index', pathMatch: 'full' },
-    { path: '**', redirectTo: 'index', pathMatch: 'full' },
+    // { path: '', redirectTo: 'index', pathMatch: 'full' },
+    // { path: '**', redirectTo: 'index', pathMatch: 'full' },
 
 
     { path: 'home', component: HomeComponent }

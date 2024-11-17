@@ -17,10 +17,11 @@ export class HomeComponent implements OnInit {
   username: any;
   user: any;
 
-  constructor( private service: HomeService, private router :Router, private domSanitizer: DomSanitizer) { }
+  constructor( private service: HomeService, private router :Router) { }
 
   ngOnInit() {
    // this.getUser();
+
     this.loadHomeInfo();
   }
 
@@ -30,9 +31,10 @@ export class HomeComponent implements OnInit {
     loadHomeInfo(){
       this.service.loadHomeInfo().subscribe({
         next: (info: HomeDTO) => {
+          
           console.log(info)
           this.infoHome = info;
-          //this.img = this.infoHome['lastSets'].img
+          //this.img = this.infoHome.lastSets?.img 
         }, 
         error: (error: any) => {
           let errorCode = error.status;
