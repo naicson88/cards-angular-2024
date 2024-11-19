@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from './service/authentication/auth-interceptor';
 import { AuthModule } from './service/authentication/auth-strategy';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,8 @@ export const appConfig: ApplicationConfig = {
     },
     //{provide: AUTH_STRATEGY, useValue: authStrategyProvider},
     importProvidersFrom(AuthModule),
-    provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()
+    provideAnimationsAsync(), 
+    provideToastr({}),
   ]
 };
 

@@ -1,0 +1,36 @@
+<div id="header-div" class="container" style="margin-bottom: -20px;">
+    <h1>Yu-Gi-Oh! Archetypes:</h1>
+    <div id="div-letters">
+        @for(arc of newArchMap; track $index){
+            <span (click)='goToLetter(arc.key)' class="letra" >#{{arc.key}}</span>
+        }
+    </div>
+</div>
+
+<div class="container" >
+    <div class="alfabeto" >
+        @for(arc of newArchMap; track $index){
+            <div class="div-letra-name">
+                <div class="div-letra" >
+                    <span id="{{arc.key}}">{{arc.key}}</span>
+                </div>
+                <div class="div-names-list">
+                    <ul>  
+                        @for (arcObj of arc.value; track $index) {
+                            <li >
+                                <app-routerlink-store-id  
+                                    [path]="'/archetypeDetails/'" 
+                                    [complement]="arcObj.id" 
+                                    [id]="arcObj.id"
+                                    [key]="'idArchetype'"
+                                    [text]="arcObj.arcName">
+                                </app-routerlink-store-id>
+                            </li>               
+                        }         
+                            
+                    </ul>
+                </div>   
+        </div>
+        }
+    </div>
+</div>

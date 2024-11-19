@@ -16,6 +16,7 @@ export class JwtAuthStrategy implements AuthStrategy<Token> {
     }
 
     getCurrentUser(): Observable<UserDTO> | undefined {
+
        const token = this.getToken();
        if(!token)
            return undefined

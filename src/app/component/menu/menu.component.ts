@@ -10,13 +10,14 @@ import { MatIconButton } from '@angular/material/button';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule} from '@angular/material/menu';
+import { AsyncPipe } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterLink, MatIconButton, MatAutocompleteModule, ReactiveFormsModule, MatIconModule, MatMenuModule ],
+  imports: [RouterLink, MatIconButton, MatAutocompleteModule, ReactiveFormsModule, MatIconModule, MatMenuModule, AsyncPipe ],
   animations: [
     trigger('openClose', [
       // ...
@@ -104,7 +105,7 @@ export class MenuComponent {
   
   ngOnInit() { 
     this.checkRouter();
-    this.validUser();
+    this.getUserRole();
    
   }
 
@@ -177,9 +178,32 @@ export class MenuComponent {
    // this.router.navigate(['/index'])
   }
 
-  validUser(){
-    GeneralFunctions.validUser(this.authService, this.router).subscribe(result => {
-        this.isAdminOrModerator = result
+  getUserRole() {
+    let username = localStorage.getItem("username");
+
+    if(username != null && username != undefined){
+        this.authService.isUserAdmin(username).subscribe({
+          next: (resp: any) => {
+            this.isAdminOrModerator = resp.isAdmin
+          },
+          error: (err) => {
+            console.error('-> Erro ao validar o usuário:', err);
+            this.isAdminOrModerator = false; 
+          }
+      })
+    }
+  }
+
+
+  getCurrentUser(){
+    GeneralFunctions.getCurrentUser(this.authService, this.router)?.subscribe({
+        next: (isAdmin: boolean) => {
+          this.isAdminOrModerator = isAdmin
+        },
+        error: (err) => {
+          console.error('-> Erro ao validar o usuário:', err);
+          this.isAdminOrModerator = false; 
+        }
     })
   }
 

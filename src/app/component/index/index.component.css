@@ -1,6 +1,5 @@
 .header-top {
-    background:url(../../assets/img/outras/paginas/banner2.jpg);
-
+    background:url('../../../../public/assets/img/outras/paginas/banner2.jpg');
      background-size: 100% 100%;
      background-repeat: no-repeat;
      padding-bottom: 90px;
@@ -97,7 +96,7 @@ a, .btn {
 }
 
 .about {
-    background: url(../../assets/img/outras/paginas/about_bg.png);
+    background: url("../../../../public/assets/img/outras/paginas/about_bg.png");
     /* background: blueviolet; */
     clip-path: polygon(0 0, 100% 17%, 100% 100%, 0% 100%);
     background-size: 100% 100%;
@@ -115,7 +114,7 @@ a, .btn {
     position: absolute;
     width: 208px;
     content: "";
-    background: url(../../assets/img/outras/paginas/jaden.png);
+    background: url("../../../../public/assets/img/outras/paginas//jaden.png");
     background-repeat: repeat;
     height: 444px;
     background-repeat: no-repeat;
@@ -130,7 +129,7 @@ a, .btn {
     position: absolute;
     width: 208px;
     content: "";
-    background: url(../../assets/img/outras/paginas/jaden.png);
+    background: url("../../../../public/assets/img/outras/paginas/jaden.png");
     background-repeat: repeat;
     height: 444px;
     background-repeat: no-repeat;

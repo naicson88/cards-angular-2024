@@ -9,13 +9,17 @@
      <div class="search" >
        <input type="text" placeholder="Search here..."  [matAutocomplete]="auto"  [formControl]="dataCtrl" (keyup)="generalSearch($event)" #generalSearchInput>
        <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let data of filteredData | async" [value]="data?.name" style="margin-top: 3px; margin-bottom: 3px;" (click)="redirectToPage(data)">
-          <img  class="example-option-img" aria-hidden [src]="data.img" height="65px" width="40px" > &nbsp;
-          <span>{{data?.name}}</span> 
-          
-         @if(data.setCode?.length > 0){ <small> | SetCode: {{data?.setCode}}</small> }
+        
+        @for(data of filteredData | async; track $index){
+            <mat-option  [value]="data?.name" style="margin-top: 3px; margin-bottom: 3px;" (click)="redirectToPage(data)">
+                <img  class="example-option-img" aria-hidden [src]="data.img" height="65px" width="40px" > &nbsp;
+                <span>{{data?.name}}</span> 
+                
+               @if(data.setCode?.length > 0){ <small> | SetCode: {{data?.setCode}}</small> }
+      
+            </mat-option>
+        }
 
-        </mat-option>
       </mat-autocomplete>
        <button (click)="clickedGeneralSearch(generalSearchInput.value)"><mat-icon>search</mat-icon></button>
      </div>

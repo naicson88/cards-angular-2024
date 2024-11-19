@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { Observable, of, Subject } from "rxjs";
 import { AuthService } from "../service/authentication/auth-service";
 import { ExtraDeckTypes } from "../enums/ExtraDeckTypes";
+import { UserDTO } from "../classes/UserDTO";
+import { catchError, map } from 'rxjs/operators';
 
 export abstract class GeneralFunctions  {
 
@@ -116,33 +118,39 @@ export abstract class GeneralFunctions  {
     this.storeDataLocalStorage(map);
   }
 
-  public static validUser(authService: AuthService, router: Router): Observable<boolean> {
-      const result = new Subject<boolean>();
+  public static getCurrentUser(authService: AuthService, router: Router): Observable<boolean> | undefined{
+
+      if(authService === undefined)
+        return of(false)
       
-      authService.getCurrentUser()?.subscribe(userReturned => { 
+     return authService?.getCurrentUser()?.pipe(
+        map((userReturned: UserDTO) => {
+      
+          const userRole = userReturned.role?.roleName
 
-        const userRole:string = userReturned.role.roleName
-          
-          if(userRole == undefined || userRole == null)
-            router.navigate(['/login'])
-          if(userRole == "ROLE_ADMIN"  || userRole == "ROLE_MODERATOR")
-            result.next(true);
-          else if(userRole == "ROLE_USER")
-            result.next(false);
-          else
-            result.next(false);
+          if(!userRole){
+           if( confirm("-> UserRole not found!") == true) {
+              router.navigate(['/login']);
+              return false;
+           }
+          }
 
-      }, error => {
-        result.next(false)
-        console.log("Error when try to consult user" + error.erro);
-      })
+          if(userRole == 'ROLE_ADMIN' || userRole === 'ROLE_MODERATOR'){
+            return true
+          } else{
+            return false;
+          }
+        }),
+        catchError((error) => {
+          console.log('Error when trying to consult user: ', error);
+          router.navigate(['/login']);  // Você pode também redirecionar em caso de erro
+          return of(false);  // Retorna false caso ocorra um erro
+        })
+    )
+  }
 
-      return result.asObservable();
-    }
-    
     checkIfIsAdmin(userRole:string) {   
-      //  let user:string = localStorage.getItem('currentUser');
-          
+      return localStorage.getItem('currentUser');
     }
 
     //Get String values o Enum

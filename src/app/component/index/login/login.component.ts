@@ -1,7 +1,7 @@
 
 import { FooterComponent } from '../../footer/footer.component';
 import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../service/authentication/auth-service';
 import { SpinnerService } from '../../../util/Spinner';
@@ -10,39 +10,39 @@ import { GeneralFunctions } from '../../../util/GeneralFunctions';
 import { Component, inject, OnInit } from '@angular/core';
 import { DialogUtils } from '../../../util/Dialogs';
 import { applyLoader } from '../../../util/Decorators';
-import { AUTH_STRATEGY } from '../../../service/authentication/auth-strategy';
+import {  AUTH_STRATEGY, AuthModule } from '../../../service/authentication/auth-strategy';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogTypeEnum } from '../../../enums/DialogTypeEnum';
+import { DialogComponent } from '../../dialog/dialog.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { SessionAuthStrategy } from '../../../service/authentication/strategy -auth-session';
 import { JwtAuthStrategy } from '../../../service/authentication/strategy-auth-jwt';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogTypeEnum } from '../../../enums/DialogTypeEnum';
-import { DialogComponent } from '../../dialog/dialog.component';
 
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FooterComponent, MatCardModule, ReactiveFormsModule],
+  imports: [FooterComponent, MatCardModule, ReactiveFormsModule, AuthModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  providers:[
-    {
-      provide: AUTH_STRATEGY,
-      useFactory: (http: HttpClient) => {
-        switch (environment.authStrategy) {
-          case 'session':
-            return new SessionAuthStrategy(http);
-          case 'token':
-            return new JwtAuthStrategy();
-          default:
-            throw new Error('Auth strategy not supported');
-        }
-      },
-      deps: [HttpClient],
-    },
-  ]
+  // providers:[
+  //   {
+  //     provide: AUTH_STRATEGY,
+  //     useFactory: (http: HttpClient) => {
+  //       switch (environment.authStrategy) {
+  //         case 'session':
+  //           return new SessionAuthStrategy(http);
+  //         case 'token':
+  //           return new JwtAuthStrategy();
+  //         default:
+  //           throw new Error('Auth strategy not supported');
+  //       }
+  //     },
+  //     deps: [HttpClient],
+  //   },
+  // ]
 })
 export class LoginComponent implements OnInit {
   
@@ -116,8 +116,9 @@ export class LoginComponent implements OnInit {
     console.log(loginRequest)
 
     this.authService.login(loginRequest).subscribe({
+
       next: (user) => {
-        console.log(user)
+        localStorage.setItem("username", user.username)
         this.router.navigate([this.authService.INITIAL_PATH]);
       },
       error: (error) =>{
@@ -128,7 +129,6 @@ export class LoginComponent implements OnInit {
             this.dialog2.open(DialogComponent, {
               data: {message: "Something bad happened, try again later!", type: DialogTypeEnum.ERROR}
             })
-           // this.dialogUtils.showDialog("Something bad happened, try again later!", DialogTypeEnum.ERROR)
           }
       }
     }); 

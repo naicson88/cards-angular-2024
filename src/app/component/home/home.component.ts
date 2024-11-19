@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FooterComponent } from '../component/footer/footer.component';
+import { FooterComponent } from '../footer/footer.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
-import { GeneralFunctions } from '../util/GeneralFunctions';
+import { GeneralFunctions } from '../../util/GeneralFunctions';
 import { CurrencyPipe, SlicePipe } from '@angular/common';
-import { HomeService } from '../service/home.service';
+import { HomeService } from '../../service/home.service';
 
 @Component({
   selector: 'app-home',

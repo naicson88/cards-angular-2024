@@ -6,7 +6,6 @@ import { AuthService } from "./auth-service";
 import { JwtAuthStrategy } from "./strategy-auth-jwt";
 import { AUTH_STRATEGY, AuthStrategy } from "./auth-strategy";
 import { environment } from "../../../environments/environment";
-import { Token } from "./Token";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -17,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
       @Inject(AUTH_STRATEGY) private jwt: JwtAuthStrategy
   ) {}
     
-  whiteList = ['/login','/confirmation','register', "confirm"]
+  whiteList = ['/login','/confirmation','register', "confirm", "index"]
    
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // DEPOIS IMPLEMENTAR ESTRATEGIA DE SESSION
@@ -33,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 req = this.authService.addToken(req, token)
             } 
 
-            else if(this.whiteList.some(wl => !url.includes(wl))) {
+            else if(!this.whiteList.some(wl => url.includes(wl))) {
                 this.authService.logout()
                 this.router.navigate(['/index'])
             }

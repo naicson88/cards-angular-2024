@@ -1,0 +1,124 @@
+
+.container {
+    margin-top: 25px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    max-width: 80%; 
+    background-color: #CE4D39;
+    padding: 10px;
+    flex-wrap: wrap; 
+    
+}
+
+.alfabeto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    min-height: 100px; 
+    min-width: 100%;
+    justify-content: center;   
+
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0px 2px 2px 0px;
+}
+
+.div-letra-name{
+    width: 100%;
+ 
+}
+
+.div-letra{
+    display: flex;
+    justify-content: center;
+    background-color: ghostwhite;
+    border-top-style: double;
+    font: 24px/1.5 Helvetica, sans-serif;
+    color: rgb(192, 191, 191);
+    font-weight: 600;   
+    width: 100%;
+}
+
+.div-names-list{
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.div-names-list ul {
+
+    flex-wrap: wrap; 
+
+} 
+.div-names-list ul li {
+    margin: 10px 3px;
+    display:inline;
+    flex-wrap: wrap; 
+}
+
+.div-names-list ul li:after {
+    content:" • ";
+}
+
+#header-div{
+    background-color: ghostwhite;
+    border: double silver; 
+    width: 80%; 
+    height: fit-content;
+    padding: 10px;
+    min-width: 700px;
+    position: sticky;
+    top: 0;
+}   
+
+#div-letters{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+
+}
+
+#div-letters span {
+    width: 30px; 
+    background-color: deepskyblue; 
+    padding: 3px;
+    text-align: center;
+    height: 29px;
+    margin: 2px 1px;
+}
+
+h1{
+    color: #CE4D39;
+    font-family: "ff-cocon-web-pro",sans-serif;
+    font-style: normal;
+    font-weight: 800;
+}
+
+.letra{
+    color: white;
+    border-right: solid 2px;
+    padding: 3px;
+    margin-left: 5px;
+    margin-right: 2px;
+    font-weight: 500;
+}
+
+.letra:hover{
+    color:indigo;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+li{
+    color: #337ab7;
+    font-weight: 500;
+}
+
+li:hover {
+    color: #23527c;
+    text-decoration: underline;
+    cursor: pointer;
+}

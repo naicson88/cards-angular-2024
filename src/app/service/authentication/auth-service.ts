@@ -6,6 +6,7 @@ import { LoginRequestDTO } from "../../component/index/login/login.component";
 import { AUTH_STRATEGY, AuthStrategy } from "./auth-strategy";
 import { environment } from "../../../environments/environment";
 import { Token } from "./Token";
+import { JwtAuthStrategy } from "./strategy-auth-jwt";
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ import { Token } from "./Token";
     constructor( 
         private router: Router, 
         private http: HttpClient,
-        @Inject(AUTH_STRATEGY) private auth: AuthStrategy<any>
+        @Inject(AUTH_STRATEGY) private auth: JwtAuthStrategy
 
     ){}
 
@@ -36,6 +37,7 @@ import { Token } from "./Token";
     }
 
     login(loginRequest: LoginRequestDTO): Observable<UserDTO>{
+        
         return this.http.post<any>(this.base_url+`/auth/login`, loginRequest)
             .pipe(tap(user => {
                 console.log(user)
@@ -108,9 +110,15 @@ import { Token } from "./Token";
     return request.clone({
         setHeaders: { 'Authorization' : `Bearer ${token}` }
    })
+  }
+
+   isUserAdmin(userName:string): Observable<any> {
+      let response = this.http.get<any>(this.base_url+`/auth/is-admin/${userName}`)
+      return response;
+   }
 }
 
-  }
+  
 
   export class UserDTO {
     id!: number;
