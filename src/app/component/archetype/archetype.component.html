@@ -9,15 +9,15 @@
 
 <div class="container" >
     <div class="alfabeto" >
-        @for(arc of newArchMap; track $index){
+        @for(arc of newArchMap | keyvalue; track $index){
             <div class="div-letra-name">
                 <div class="div-letra" >
                     <span id="{{arc.key}}">{{arc.key}}</span>
                 </div>
                 <div class="div-names-list">
                     <ul>  
-                        @for (arcObj of arc.value; track $index) {
-                            <li >
+         
+                            <!-- <li >
                                 <app-routerlink-store-id  
                                     [path]="'/archetypeDetails/'" 
                                     [complement]="arcObj.id" 
@@ -25,8 +25,8 @@
                                     [key]="'idArchetype'"
                                     [text]="arcObj.arcName">
                                 </app-routerlink-store-id>
-                            </li>               
-                        }         
+                            </li>                -->
+                               
                             
                     </ul>
                 </div>   

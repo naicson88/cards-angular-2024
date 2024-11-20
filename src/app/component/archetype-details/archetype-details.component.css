@@ -1,0 +1,22 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Goblin+One&display=swap');
+
+h2{
+    color: #CE4D39;
+    font-family: "ff-cocon-web-pro",sans-serif;
+    font-style: normal;
+    font-weight: 800;
+}
+
+h2 span {
+    font-family: 'Goblin One', cursive;
+    font-size: 50px;
+    color: darkslateblue;
+}
+
+  .divTooltip{
+    position: absolute;
+    margin: 0;
+    z-index: 9999;
+    display: block;
+  }

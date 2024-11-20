@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { applyLoader } from '../../util/Decorators';
 import { Router, RouterLink } from '@angular/router';
 import { ArchetypeService } from '../../service/archetype.service';
-import { FooterComponent } from '../footer/footer.component';
 import { RouterlinkStoreIdComponent } from '../routerlink-store-id/routerlink-store-id.component';
+import { KeyValuePipe } from '@angular/common';
 
 @Component({
   selector: 'app-archetype',
   standalone: true,
-  imports: [RouterlinkStoreIdComponent],
+  imports: [RouterlinkStoreIdComponent, KeyValuePipe],
   templateUrl: './archetype.component.html',
   styleUrl: './archetype.component.css'
 })
@@ -21,14 +21,18 @@ export class ArchetypeComponent {
 
   archetype: ArchetypeDTO[] = [];
   newArchMap: any
+
   @applyLoader()
   loadAllArchetypes(){
-    this.service.getAllArchetypes().subscribe(data => {
-    this.newArchMap = data;
-    console.log(this.newArchMap)
-    }, error => {
-      console.log(error);
-    })
+    this.service.getAllArchetypes().subscribe({
+      next: (data) => {
+        this.newArchMap = data;
+        console.log(this.newArchMap)
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
   }
 
 // private  tranformMapInArray(originalMap: object){  
