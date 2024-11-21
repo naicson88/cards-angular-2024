@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { applyLoader } from '../../util/Decorators';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ArchetypeService } from '../../service/archetype.service';
 import { RouterlinkStoreIdComponent } from '../routerlink-store-id/routerlink-store-id.component';
 import { KeyValuePipe } from '@angular/common';
