@@ -24,6 +24,6 @@ export class ArchetypeService {
   }
 
   public getArchetype(id:any){
-    return this.http.get<ArchetypeDTO[]>(this.base_url+`/arch/archetype/${id}`);
+    return this.http.get<ArchetypeDTO>(this.base_url+`/arch/archetype/${id}`);
   }
 }

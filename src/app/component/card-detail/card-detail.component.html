@@ -1,0 +1,252 @@
+<div id="mainDivCards" >
+    <div style="width: 100%; margin:20px 0px">
+      <app-page-header [pageTitle]="mainTitle"></app-page-header>
+    </div>  
+     
+      <div id="cabecalho">
+          <div id="cardImagem" >
+              <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                  <div class="carousel-inner">
+  
+                    <div class="carousel-item active">
+                      <img class="d-block w-100" [src]="cardImagem(alternativeCardNumber[0]?.cardAlternativeNumber)" alt="First slide" width="193" height="265"
+                      (mouseover)="mostrarImgToolTip($event)"
+                      (mousemove)="mostrarImgToolTip($event)"
+                      (mouseout)="esconderImgToolTip()">
+                    </div>
+                    
+                    @for(card of alternativeCardNumber | slice:1; track $index){
+                        <div class="carousel-item">
+                            <img class="d-block w-100" [src]="cardImagem(card.cardAlternativeNumber)" alt="First slide" width="193" height="265" 
+                            (mouseover)="mostrarImgToolTip($event)"
+                            (mousemove)="mostrarImgToolTip($event)"
+                            (mouseout)="esconderImgToolTip()">
+                        </div>
+                    }
+
+
+                  </div>
+                  
+                  @if(alternativeCardNumber.length > 1){
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                  }
+
+
+              </div>
+              
+              <div id="total-card-views">
+                  Total Views:  <b>{{totalViews}}</b> 
+            </div>
+            <div style="margin-top: -30px; margin-left: 110px; cursor: pointer" (click)="seeCropped()">
+                <img src="../../../../assets/img/icons/image.png" alt="image icon" title="See Cropped Art" height="28px" width="28px" >
+            </div>
+          </div>
+          
+            <!--Div que será mostrada quando o mouse passar sobre a carta -->
+            <div class="divTooltip" [ngStyle]="{'top': topTp, 'left': leftTp }">
+              <img [src]='imgTooltip'  alt="" width="310px" height="420px" *ngIf="isShowTooltip" 
+              class="imgTooltip" >
+            </div>
+  
+          <!--Informações Card Monstros *ngIf="card.categoria !== 'Trap Card' && card.categoria !== 'Spell Card'"-->
+          <div id="infoCard" >
+  
+                  <div id="name-attr-card">
+                      <div class="nome-cabecalho">{{card.nome}}</div>
+                      <div>
+                          <img [src]='card.atributo?.atributoImgPath' alt="" width="40px" height="40px" /> {{card.atributo?.name}}
+                      </div>
+                  </div>
+              
+              <div id="general-card-info" >
+                  <div id="info-left" class="internal-div-info-card">
+                     <p>
+                          <strong>Number : </strong>  {{card.numero}} 
+                     </p>
+                     @if(card.nivel){
+                        <p>
+                            <strong>Level : </strong>  <img src="..\..\assets\img\outras\Nivel.png" alt=""  width="25px" height="25px" style="display: inline-block;"> {{card.nivel}}
+                        </p>
+                     }
+                     @if(cardTypes){
+                        <p >
+                            <strong>Types : </strong> 
+                            <img  [src]='card.tipo.tipoCardImgPath' alt="" height="28px" width="28px" style="display: inline-block; margin-right: 3px;">  
+                            {{cardTypes}} 
+                        </p>
+                     } 
+                     @if(card.propriedade){
+                        <p>
+                            <strong>Property : </strong> {{card.propriedade}}
+                            <img [src]='atributoImagem(card.propriedade)' alt="" *ngIf="card.propriedade !== 'Normal' " width="35px"/>
+                        </p>
+                     }
+
+                  </div>
+
+                  <div id="info-right" class="internal-div-info-card">
+                    @if(card.atk){
+                        <p>
+                            <strong>ATK : </strong> <img src="..\..\assets\img\tiposMonstros\atk.JPG" alt="" width="32px" height="32px"> {{card.atk}}
+                        </p>
+                    }
+                    @if(card.def){
+                        <p>
+                            <strong>DEF : </strong>  <img src="..\..\assets\img\tiposMonstros\def.JPG" alt="" width="32px" height="32px" > {{card.def}}
+                        </p>
+                    }   
+                    @if(card.qtd_link){
+                        <p>
+                            <strong>Link : </strong> 
+                            <img src="..\..\assets\img\tiposMonstros\Link.PNG" alt="" width="32px" height="32px" > {{card.qtd_link}}
+                        </p>
+                    }
+                    @if(card.archetype?.arcName){
+                        <p>
+                            <strong>Archetype : </strong> 
+                            <app-routerlink-store-id  
+                              [path]="archetypeDetail" 
+                              [complement]="card.archetype.id" 
+                              [id]="card.archetype.id"
+                              [key]="'idArchetype'"
+                              [text]="card.archetype.arcName">
+                           </app-routerlink-store-id>
+                        </p>
+                    }
+                      
+                    
+                  </div>
+              </div>
+              @if(card.genericType == 'PENDULUM'){
+                <div class="row" style="padding: 3px; height: fit-content;margin-bottom: -5px; ">
+                    <div class="col-md-2" style=" position: relative; border-right:solid thin #ccc;">
+                        <p  style=" top: 25%; left: 30%; position: absolute; text-align: right;">
+                        <img src="..\..\assets\img\outras\EscalaAzul.png" alt="Blue Scale"> &nbsp;
+                            <span>{{card.escala}}</span> &nbsp;
+                        <img src="..\..\assets\img\outras\EscalaVermelha.png" alt="Red Scale"> 
+                        </p>
+                    </div>
+                    <div class="col-md-10" style="text-align: left; margin: -2; font-family:'Open Sans', Arial, sans-serif;" >
+                        <p class="card-descr-pend" style="font-size:12px; " >
+                            {{card.descr_pendulum}}
+                        </p>
+                    </div>
+                </div> 
+              }
+   
+                <div class="row" id="card-description" >
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: left;">
+                      <p class="card-descr-pend" style="font-size:14px; margin-bottom: 1px;margin-top: 3px;
+                       font-family:'Nunito', Arial, sans-serif;" >
+                            {{card.descricao}}
+                       </p>
+                  </div>
+              </div>
+          </div> 
+         
+      </div>
+      <div id="qtdUserHas">
+        <span style="font-size: small; color: gray"> <i>You have {{qtdUserHasTotal}} cards of {{card.nome}} </i> </span>
+      </div>
+  
+      <!--Div Decks que tem esse card-->
+      <div class="container" id="subMainDiv">
+            <!-- Card Price -->    
+            <div id="card-price-chart">
+              <mat-accordion >
+                  <mat-expansion-panel >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title style="font-weight: 500 !important;">
+                          <mat-icon> attach_money</mat-icon>   Card Price History
+                      </mat-panel-title>
+                    
+                    </mat-expansion-panel-header>
+                    <canvas #attrCanvas ></canvas>
+                  </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+            <div id="setsTitle">
+              <h3> Sets that contains this card</h3>
+            </div>
+            <div id="card-table-and-collections" style="display: flex; justify-content: space-around;">
+     
+            <div id="sets-details" >
+              @for(sets of konamiSets; track $index){
+                <div class="single-set" >
+
+                  <div class="set-img" >
+                    @if(sets.setType == 'BOX'){ <img *ngIf=""  [src]='sets.image' alt="Set Image" width="110px" height="110px" >}
+                    @else {<ng-template #deckimg> <img [src]='sets.image' alt="Set Image" width="80px" height="110px" loading="lazy"> </ng-template>}                     
+                  </div>
+
+                  <div class="set-description">
+                     <ul>
+                         <li ><span>Name: </span> 
+                            <span> 
+                                <a [routerLink]="['/deck-details/', sets.name]" [title]="sets.name"
+                                   name="sets?.id" (click)="storeDeckId(sets?.id, sets.setType)">{{sets.name}}</a>
+                            </span>                  
+                         </li>
+                         <li><span>Set Code: </span> {{sets.cardSetCode}} </li>
+                         <li><span>Rarity: </span>
+                              <span [ngClass]="setRarityColor(rarities)" *ngFor="let rarities of sets.rarity"> {{rarities}} </span>                       
+                         </li>
+                         <li><span>Price: </span> 
+                             <span class="price-span" *ngFor="let prices of sets.price">{{prices | currency}}</span>                      
+                         </li>
+                         <li>
+                             <span>Release: </span> {{sets.releaseDate}}
+                             <span *ngIf="checkIfKeyExist(sets.cardSetCode)"
+                                   class="checkmark" 
+                                   (click)="filterMapSetCode(sets.cardSetCode)" 
+                                   data-toggle="modal" 
+                                   data-target="#modalCards" 
+                                   matTooltip="You have this Card's collection. Click to see!"
+                                  > 
+                                 <mat-icon>check_circle</mat-icon>
+                             </span>
+                         </li>
+                     </ul>
+                  </div>
+              </div>
+              }
+
+            </div>  
+            </div>
+      </div> 
+  
+          <!-- Modal -->
+    <div class="modal fade" id="modalCards" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Your Collections with this Set Code</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalBtn">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @for(mapUserCol of userHaveByUserCollectionFiltered | keyvalue; track $index ){
+              <p style="color: navy;" (click)="getSetByName(mapUserCol.value)">•  {{mapUserCol.value}} </p>    
+            }
+                                                      
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+             
+    </div>
+     
+          
+         
+          
