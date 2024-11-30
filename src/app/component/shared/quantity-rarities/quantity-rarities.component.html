@@ -1,0 +1,22 @@
+<div id="tableRarity">
+    <table id="table-quantity">
+      <thead>
+        <tr>
+            @for(rName of raritiesName; track $index){
+                <th [class]="getRarityClass(rName)" >{{rName}}</th>
+            }
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background-color: ghostwhite;">
+            @for(rQtd of raritiesQuantity; track $index){
+                <td>            
+                    <span >{{rQtd}}</span>
+                </td>
+            }
+
+        </tr>
+      </tbody>
+    </table>
+</div>
