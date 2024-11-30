@@ -49,29 +49,32 @@
          
         
         <!--Raridade-->
-        <div class="row" style="border: gold solid thin;" *ngIf="arrInsideDecksCards[0]?.cards.length > 0">
+        @if(arrInsideDecksCards[0]?.cards != undefined && arrInsideDecksCards[0].cards.length > 0){
+            <div class="row" style="border: gold solid thin;">
   
-          <div id="rarity">
-            <app-quantity-rarities [rarities]="rarities"  style="width: 35% !important;"> </app-quantity-rarities>
-          </div>
-  
-  
-          <div id="allCards">
-            <div *ngFor="let inside of arrInsideDecksCards">
-              <label for="" style="font-size: small"> 
-                <b>Cards:</b> &#9830;
-                  <app-routerlink-store-id *ngFor="let card of inside.cards" style="font-size: small;" 
-                    [path]="paths['CARD_DETAIL']" 
-                    [complement]="card.nome" 
-                    [id]="card.numero"
-                    [key]="sessionKey"
-                    [text]="concatString('♦',card.nome)">
-                  </app-routerlink-store-id>
-              </label>
-            </div>
-          </div>
-  
-        </div>
+                <div id="rarity">
+                  <app-quantity-rarities [rarities]="rarities"  style="width: 35% !important;"> </app-quantity-rarities>
+                </div>
+        
+        
+                <div id="allCards">
+                  <div *ngFor="let inside of arrInsideDecksCards">
+                    <label for="" style="font-size: small"> 
+                      <b>Cards:</b> &#9830;
+                        <app-routerlink-store-id *ngFor="let card of inside.cards" style="font-size: small;" 
+                          [path]="paths['CARD_DETAIL']" 
+                          [complement]="card.nome" 
+                          [id]="card.numero"
+                          [key]="sessionKey"
+                          [text]="concatString('♦',card.nome)">
+                        </app-routerlink-store-id>
+                    </label>
+                  </div>
+                </div>
+        
+              </div>
+        }
+
   
       </div>
   
@@ -92,7 +95,7 @@
   
     </div>
   
-    <app-price-update [typeSearch]="typeSearch" [name]="deckDetails?.nome"></app-price-update>
+    <app-price-update [typeSearch]="typeSearch" [name]="deckDetails.nome"></app-price-update>
   
     <div class="p-5  rounded shadow mb-5" style="margin-top: 25px; display: none;" [style.display]="isVisible ? 'block' : 'none'">
       <!-- Rounded tabs -->
@@ -157,14 +160,19 @@
                     </p>
                   </div>
                   <div>
-                    <h6 style="color: #9370DB"><strong>{{cardsInfo.listCardRarity[0].cardSetCode}}</strong></h6>
+                    @if(cardsInfo != undefined && cardsInfo.listCardRarity != undefined && cardsInfo.listCardRarity[0]) {
+                        <h6 style="color: #9370DB"><strong>{{cardsInfo.listCardRarity[0].cardSetCode}}</strong></h6>
+                    }
                   </div>
                 </div>
                   
                   <div class="row row-card-info" *ngIf="cardsInfo.categoria != 'Spell Card' && cardsInfo.categoria != 'Trap Card' && cardsInfo.categoria != 'Skill Card'">
                     <div class="card-details-div">           
                         <div >
-                          <img [src]='cardsInfo.atributo.atributoImgPath' alt=""  loading="lazy">
+                    
+                                <img [src]='cardsInfo.atributo.atributoImgPath' alt=""  loading="lazy">
+                            
+                          
                           <p class="atributo-card p-icon-details"  [ngClass]="setAttColor(cardsInfo.atributo.name)">
                             {{cardsInfo.atributo.name}}
                           </p>
@@ -186,12 +194,12 @@
                     <div class="card-details-div">
                         <div >
                           <img src="..\..\assets\img\tiposMonstros\atk.JPG" alt="" loading="lazy" title="Attack">&nbsp;
-                          <p class="nivel p-icon-details"><b [ngStyle]="{'color':setColorAtkDef(cardsInfo.atk)}"> {{cardsInfo.atk}}</b></p>
+                          <p class="nivel p-icon-details"><b [ngStyle]="{'color':setColorAtkDef(cardsInfo?.atk)}"> {{cardsInfo.atk}}</b></p>
                         </div>
                         <!--Caso não seja monstro Link-->
                         <div *ngIf="cardsInfo.categoria !='Link Monster' ">
                           <img src="..\..\assets\img\tiposMonstros\def.JPG" alt="" loading="lazy" title="Defense">&nbsp;
-                          <p class="nivel p-icon-details" > <b [ngStyle]="{'color':setColorAtkDef(cardsInfo.def)}">{{cardsInfo.def}}</b> </p>
+                          <p class="nivel p-icon-details" > <b [ngStyle]="{'color':setColorAtkDef(cardsInfo?.def)}">{{cardsInfo.def}}</b> </p>
                         </div>
                         <!--Caso seja monstro LINK-->
                         <div  class="card-details-div" *ngIf="cardsInfo.categoria == 'Link Monster' ">
@@ -250,7 +258,7 @@
                       {{cardsInfo.descricao}}
                     </p> <br>
                     <p style="margin-bottom: 0;" *ngIf="cardsInfo.archetype?.arcName"> <i> <b>Archetype</b> :
-                        {{cardsInfo.archetype.arcName}} </i> </p><br>
+                        {{cardsInfo.archetype?.arcName}} </i> </p><br>
                     <div style="margin-bottom: 0;">
             
                        <span *ngFor="let card of cardsInfo.listCardRarity">
@@ -266,7 +274,8 @@
                           <span style="color: green;font-size: 14px; font-weight: bold;">
                             {{card.card_price | currency}}
                           </span>&nbsp;&nbsp;
-                          <b *ngIf="cardsInfo.listCardRarity.length >= 2"> / </b>
+                          @if(cardsInfo.listCardRarity != undefined && cardsInfo.listCardRarity.length >= 2){<b> / </b>}
+                          
                        </span>  
                     
                       </div>

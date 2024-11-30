@@ -13,11 +13,23 @@ import { RouterlinkStoreIdComponent } from '../shared/routerlink-store-id/router
 import { CommonModule } from '@angular/common';
 import { PageHeaderComponent } from '../shared/page-header/page-header.component';
 import { QuantityRaritiesComponent } from '../shared/quantity-rarities/quantity-rarities.component';
+import { PriceUpdateComponent } from '../shared/price-update/price-update.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-deck-detail',
   standalone: true,
-  imports: [AddToCollectionComponent, RouterLink, RouterlinkStoreIdComponent, CommonModule, PageHeaderComponent, QuantityRaritiesComponent],
+  imports: [AddToCollectionComponent, RouterLink, RouterlinkStoreIdComponent, CommonModule, PageHeaderComponent, QuantityRaritiesComponent, PriceUpdateComponent,
+    MatExpansionModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule, 
+  ],
   templateUrl: './deck-detail.component.html',
   styleUrl: './deck-detail.component.css'
 })
@@ -112,13 +124,18 @@ export class DeckDetailComponent implements OnInit {
     else return "rgba(255, 64, 0, 0.3)";
   }
 
-  setColorAtkDef(vlr: number) {
+  setColorAtkDef(vlr: number | undefined) {
+    if(vlr == undefined)
+      return 0;
+
     if (vlr >= 0 && vlr <= 1900) return "green";
     else if (vlr > 1900 && vlr <= 2400) return "GoldenRod";
     else return "firebrick";
   }
 
-  setRarityColor(rarity: string) {
+  setRarityColor(rarity: string | undefined) {
+    if(rarity == undefined)
+      return "silver";
     return GeneralFunctions.colorRarity(rarity);
   }
 

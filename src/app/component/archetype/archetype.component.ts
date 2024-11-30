@@ -8,7 +8,7 @@ import { KeyValuePipe } from '@angular/common';
 @Component({
   selector: 'app-archetype',
   standalone: true,
-  imports: [RouterlinkStoreIdComponent, KeyValuePipe],
+  imports: [KeyValuePipe],
   templateUrl: './archetype.component.html',
   styleUrl: './archetype.component.css'
 })

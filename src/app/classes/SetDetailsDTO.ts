@@ -3,7 +3,7 @@ import { InsideDeckDTO } from "./InsideDeckDTO";
 export class SetDetailsDTO {
 
     id!:number;
-    nome?:string;
+    nome!:string;
     nomePortugues?:string;
     qtd_cards?:number;
     qtd_comuns?:number;
