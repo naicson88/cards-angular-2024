@@ -14,5 +14,6 @@ export class DeckDTO {
     rel_deck_cards?:RelDeckCardsDTO[]
     setCollection?: SetCollectionDTO[]
     imgurUrl?:string;
-    isSpeedDuel?:boolean
+    isSpeedDuel?:boolean;
+    quantityUserHave!: number
 }

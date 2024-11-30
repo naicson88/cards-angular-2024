@@ -1,144 +1,323 @@
-<div id="mainDiv" class="container" style="background-color: whitesmoke; min-width: 683px;">
-    <!-- <div class="default-header"><span *ngIf="source == 'USER' ">Your Sets</span><span *ngIf="source == 'KONAMI' ">Konami's Sets</span></div> -->
-    <div id="separator"> @if(source == 'USER' ){ <div> Your Sets </div>} @else { <div> Konami's Sets </div>} </div>
-    <div id="header-main">
-      <!--SEARCH BAR-->
-      <div>
-        <mat-autocomplete #auto="matAutocomplete" panelWidth="500px">
-          <mat-option *ngFor="let complete of filteredAutocomplete" [value]="complete.setName" (click)="searchByName()">
-            <span style="color: olive">{{complete.setName}}</span>
-          </mat-option>
-        </mat-autocomplete>
-        <div class="search">
-          <input #nameFilter (keypress)="_filter(nameFilter.value)" type="text" class="searchTerm" placeholder="Search deck..." maxlength="50" [(ngModel)]="setName" [matAutocomplete]="auto" name="setName">
-          <button type="submit" class="searchButton">
-            <i class="fa fa-search" (click)="searchByName()"></i>
-          </button>
+<div
+  id="mainDiv"
+  class="container"
+  style="background-color: whitesmoke; min-width: 683px;"
+>
+  <!-- <div class="default-header"><span *ngIf="source == 'USER' ">Your Sets</span><span *ngIf="source == 'KONAMI' ">Konami's Sets</span></div> -->
+  <div id="separator">
+    @if(source == 'USER' ){
+    <div>Your Sets</div>
+    } @else {
+    <div>Konami's Sets</div>
+    }
+  </div>
+  <div id="header-main">
+    <!--SEARCH BAR-->
+    <div>
+      <mat-autocomplete #auto="matAutocomplete" panelWidth="500px">
+        @for(complete of filteredAutocomplete; track $index){
+          <mat-option
+            [value]="complete.setName"
+            (click)="searchByName()"
+          >
+          <span style="color: olive">{{complete.setName}}</span>
+        </mat-option>
+        }
+    
+      </mat-autocomplete>
+      <div class="search">
+        <input
+          #nameFilter
+          (keypress)="_filter(nameFilter.value)"
+          type="text"
+          class="searchTerm"
+          placeholder="Search deck..."
+          maxlength="50"
+          [(ngModel)]="setName"
+          [matAutocomplete]="auto"
+          name="setName"
+        />
+        <button type="submit" class="searchButton">
+          <i class="fa fa-search" (click)="searchByName()"></i>
+        </button>
+      </div>
+    </div>
+    <!-- PAGINATION-->
+    <div style="width:fit-content; margin-left: 5px ;">
+      <label for="" style="color: white; font-size: small;"
+        >Quantity per page: </label
+      >&nbsp;
+      <select
+        class="form-select-ang"
+        (change)="handlePageSizeChange($any($event.target).value)"
+      >
+        @for( size of pageSizes; track $index){
+        <option [value]="size">{{size}}</option>
+        }
+      </select>
+    </div>
+    <!-- SET TYPE-->
+    <div style="width: 30%;">
+      <label for="" style="color: white; font-size: small;">Collection: </label
+      >&nbsp;
+      <select
+        class="form-select-ang"
+        (change)="getSetTypeValue($any($event.target).value)"
+      >
+        <option value="DECK" selected>Deck</option>
+        <option value="TIN">Tin</option>
+        <option value="BOX">Box</option>
+        <option value="BOOSTER">Booster</option>
+        @if(source == 'USER'){
+          <option value="USER_NEW_COLLECTION">
+            Collection
+          </option>
+        }
+       
+      </select>
+    </div>
+  </div>
+  <!-- Se a coleção do usuário estiver vazia-->
+   @if(decks.length == 0){
+    <div id="empty-collection">
+      <h1>You haven't added any Set of that type yet!</h1>
+    </div>
+   }
+  
+  <!-- Decks-->
+  @if(decks.length > 0){
+  <mat-tab-group mat-align-tabs="end">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>view_module</mat-icon> Grid
+      </ng-template>
+      <div id="cont-cards" class="flex">
+        <div id="cardDiv">
+          @for(deck of decks | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: totalItens}; track $index){
+            <div class="deck-info-main deck-wrap clearfix">
+            <div class="deckuct-deatil-div">
+              <div
+                class="deckuct-deatil"
+                style="margin-bottom: 12px; margin-left: 12px;"
+              >
+                <h6
+                  class="name"
+                  title=" {{deck.nome}}"
+                  style="font-weight: 600; font-size: small;"
+                >
+                  @if(source == 'KONAMI' && set_type == 'DECK'){
+                    <a
+                      name="{{deck.id}}"
+                      (click)="storeDeckId(deck.id, deck.setType)"
+                      [routerLink]="['/deck-details/', deck.nome]"
+                      class="deck_name"
+                    >
+                      {{deck.nome}}
+                    </a>
+                  } @else if (source == 'KONAMI' && set_type != 'DECK') {
+                    <a
+                      name="{{deck.id}}"
+                      (click)="storeDeckId(deck.id, deck.setType)"
+                      [routerLink]="['/collection-details/', deck.nome]"
+                      class="deck_name"
+                    >
+                      {{deck.nome}}
+                    </a>
+                  }
+                  @else if (source == 'USER' && set_type == 'DECK') {
+                    <a
+                    
+                      name="{{deck.id}}"
+                      (click)="storeDeckId(deck.id, deck.setType)"
+                      [routerLink]="['/user-deck-details/', deck.nome]"
+                      class="deck_name"
+                    >
+                    {{deck.nome}}
+                  </a>
+                  } @else if (source == 'USER' && set_type != 'DECK') {
+                    <a
+                   
+                      name="{{deck.id}}"
+                      (click)="storeDeckId(deck.id, deck.setType)"
+                      [routerLink]="['/user-setcollection-details/', deck.nome]"
+                      class="deck_name"
+                  >
+                    {{deck.nome}}
+                  </a>
+                  }
+
+                </h6>
+                <span class="tag1"></span>
+              </div>
+              <div
+                class="col-md-6 col-sm-10 col-xs-10"
+                style="margin-left: -6px;"
+              >
+                <div class="deckuct-image">
+                  <img
+                    [src]="deck.imagem"
+                    class="img-responsive"
+                    height="238px"
+                    width="200px"
+                    title="{{deck.nome}}"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              @if(source == 'KONAMI'){
+              <div class="image_card_bottom">
+                <app-add-to-collection
+                  [deckID]="deck.id"
+                  [quantityUserHave]="deck.quantityUserHave"
+                  [set_type]="deck.setType"
+                ></app-add-to-collection>
+              </div>
+              }
+
+              <!--Opções que só aparecem se for deck de usuário-->
+              @if(source == 'USER'){
+              <div class="row editRemove">
+                <div class="col-md-6" style="text-align: center;">
+                  <!--    <a href="javascript:void(0);" class="btn btn-danger">Add to cart</a>-->
+                  <span
+                    style="font-size:x-small; color: #ccc; font-weight: bold; "
+                    >Total you have:</span
+                  >
+                  <br />
+                  @if(deck.setType == 'DECK'){
+                  <a
+                    name="{{deck.id}}"
+                    [routerLink]="['/userdeck-details/', deck.nome]"
+                    (click)="storeDeckId(deck.id, deck.setType)"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-outline-warning btn-sm"
+                    >
+                      Edit
+                    </button>
+                  </a>
+                  &nbsp; } @else {
+                  <a
+                    name="{{deck.id}}"
+                    [routerLink]="['/user-setcollection-cards/', deck.nome]"
+                    (click)="storeDeckId(deck.id, deck.setType)"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-outline-warning btn-sm"
+                    >
+                      Edit
+                    </button>
+                  </a>
+                  &nbsp; }
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    title="Delete from your collection"
+                    id="{{deck.id}}"
+                    (click)="removeSetToUserCollection($event)"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+        }
+
+          <!-- First deckuct box start here-->
         </div>
       </div>
-      <!-- PAGINATION-->
-      <div style="width:fit-content; margin-left: 5px ;">
-        <label for="" style="color: white; font-size: small;">Quantity per page: </label>&nbsp; <select class="form-select-ang" (change)="handlePageSizeChange($event.target.value)"> @for( size of pageSizes; track $index){ <option [value]="size"> {{size}}</option> } </select>
+    </mat-tab>
+    <!--Começo visualização por lista-->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>view_headline</mat-icon> List
+      </ng-template>
+      <!--Cards em lista-->
+      <div id="sets-list">
+        @for(decklist of decks; track $index){
+        <div id="row-list">
+          <div class="img_deck_list">
+            <img
+              [src]="decklist.imagem"
+              height="70px"
+              width="50px"
+              title="{{decklist.nome}}"
+              loading="lazy"
+            />
+          </div>
+          <div class="right-div-row-list">
+            <div class="row-list-name">
+              @if(set_type != 'UD'){
+              <a
+                name="{{decklist.id}}"
+                (click)="storeDeckId(decklist.id, decklist.setType )"
+                [routerLink]="['/deck-details/', decklist.nome]"
+              >
+                {{decklist.nome}}
+              </a>
+              } @else {
+              <a
+                name="{{decklist.id}}"
+                (click)="storeDeckId(decklist.id, decklist.setType)"
+                [routerLink]="['/user-deck-details/', decklist.nome]"
+              >
+                {{decklist.nome}}
+              </a>
+              }
+            </div>
+            @if(source == 'USER'){
+            <div class="edit-remove-list">
+              <span style="font-size:x-small; color: #ccc; font-weight: bold; "
+                >Total you have:</span
+              >
+              <br />
+              @if(decklist.setType == 'DECK'){
+              <a
+        
+                name="{{decklist.id}}"
+                [routerLink]="['/userdeck-details/', decklist.nome]"
+                (click)="storeDeckId(decklist.id, decklist.setType)"
+              >
+                <button type="button" class="btn btn-outline-warning btn-sm">
+                  Edit
+                </button>
+              </a>
+              &nbsp; } @else {
+              <a
+                name="{{decklist.id}}"
+                [routerLink]="['/user-setcollection-cards/', decklist.nome]"
+                (click)="storeDeckId(decklist.id, decklist.setType)"
+              >
+                <button type="button" class="btn btn-outline-warning btn-sm">
+                  Edit
+                </button>
+              </a>
+              &nbsp; }
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                title="Delete from your collection"
+                id="{{decklist.id}}"
+                (click)="removeSetToUserCollection($event)"
+              >
+                Remove
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+        }
       </div>
-      <!-- SET TYPE-->
-      <div style="width: 30%;">
-        <label for="" style="color: white; font-size: small;">Collection: </label>&nbsp; <select class="form-select-ang" (change)="getSetTypeValue($event.target.value)">
-          <option value="DECK" selected>Deck</option>
-          <option value="TIN">Tin</option>
-          <option value="BOX">Box</option>
-          <option value="BOOSTER">Booster</option>
-          <option value="USER_NEW_COLLECTION" *ngIf="source == 'USER'">Collection</option>
-        </select>
-      </div>
-    </div>
-    <!-- Se a coleção do usuário estiver vazia-->
-    <div id="empty-collection" *ngIf="deck?.length == 0">
-      <h1> You haven't added any Set of that type yet!</h1>
-    </div>
-    <!-- Decks--> 
-     @if(deck.length > 0){ 
-        <mat-tab-group mat-align-tabs="end">
-        <mat-tab>
-            <ng-template mat-tab-label>
-            <mat-icon>view_module</mat-icon> Grid
-            </ng-template>
-            <div id="cont-cards" class="flex">
-            <div id="cardDiv">
-                <div class="deck-info-main deck-wrap clearfix" *ngFor="let deck of deck |
-                        paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: totalItens} ">
-                <div class="deckuct-deatil-div">
-                    <div class="deckuct-deatil" style="margin-bottom: 12px; margin-left: 12px;">
-                    <h6 class="name" title=" {{deck.nome}}" style="font-weight: 600; font-size: small;">
-                        <a *ngIf="source == 'KONAMI' && set_type == 'DECK'" name="{{deck.id}}" (click)="storeDeckId(deck.id, deck.setType)" [routerLink]="['/deck-details/', deck.nome]" class="deck_name">
-                        {{deck.nome}}
-                        </a>
-                        <a *ngIf="source == 'KONAMI' && set_type != 'DECK'" name="{{deck.id}}" (click)="storeDeckId(deck.id, deck.setType)" [routerLink]="['/collection-details/', deck.nome]" class="deck_name">
-                        {{deck.nome}}
-                        </a>
-                        <a *ngIf="source == 'USER' && set_type == 'DECK'" name="{{deck.id}}" (click)="storeDeckId(deck.id, deck.setType)" [routerLink]="['/user-deck-details/', deck.nome]" class="deck_name">
-                        {{deck.nome}}
-                        </a>
-                        <a *ngIf="source == 'USER' && set_type != 'DECK'" name="{{deck.id}}" (click)="storeDeckId(deck.id, deck.setType)" [routerLink]="['/user-setcollection-details/', deck.nome]" class="deck_name">
-                        {{deck.nome}}
-                        </a>
-                    </h6>
-                    <span class="tag1"></span>
-                    </div>
-                    <div class="col-md-6 col-sm-10 col-xs-10" style="margin-left: -6px;">
-                    <div class="deckuct-image">
-                        <img [src]='deck.imagem' class="img-responsive" height="238px" width="200px" title="{{deck.nome}}" loading="lazy">
-                    </div>
-                    </div>
-                    <div class="image_card_bottom" *ngIf="source == 'KONAMI'">
-                    <app-add-to-collection [deckID]="deck.id" [quantityUserHave]="deck.quantityUserHave" [set_type]="deck.setType"></app-add-to-collection>
-                    </div>
-                    <!--Opções que só aparecem se for deck de usuário--> @if(source == 'USER'){ <div class="row editRemove">
-                    <div class="col-md-6" style="text-align: center;">
-                        <!--    <a href="javascript:void(0);" class="btn btn-danger">Add to cart</a>-->
-                        <span style="font-size:x-small; color: #ccc; font-weight: bold; ">Total you have:</span>
-                        <br> 
-                        @if(deck.setType == 'DECK'){
-                            <a name="{{deck.id}}" [routerLink]="['/userdeck-details/', deck.nome]" (click)="storeDeckId(deck.id, deck.setType)">
-                                <button type="button" class="btn btn-outline-warning btn-sm"> Edit </button>
-                            </a> &nbsp; 
-                            } @else { 
-                                <a name="{{deck.id}}" [routerLink]="['/user-setcollection-cards/', deck.nome]" (click)="storeDeckId(deck.id, deck.setType)">
-                                    <button type="button" class="btn btn-outline-warning btn-sm"> Edit </button>
-                                </a> &nbsp; 
-                            } 
-                    <button type="button" class="btn btn-outline-danger btn-sm" title="Delete from your collection" id="{{deck.id}}" (click)="removeSetToUserCollection($event)">Remove </button>
-                    </div>
-                    </div> }
-                </div>
-                </div>
-                <!-- First deckuct box start here-->
-            </div>
-            </div>
-        </mat-tab>
-        <!--Começo visualização por lista-->
-        <mat-tab>
-            <ng-template mat-tab-label>
-            <mat-icon>view_headline</mat-icon> List
-            </ng-template>
-            <!--Cards em lista-->
-            <div id="sets-list"> @for(decklist of deck; track $index){ 
-                <div id="row-list">
-                    <div class="img_deck_list">
-                    <img [src]='decklist.imagem' height="70px" width="50px" title="{{decklist.nome}}" loading="lazy">
-                    </div>
-                    <div class="right-div-row-list">
-                    <div class="row-list-name"> @if(set_type != 'UD'){ <a name="{{decklist.id}}" (click)="storeDeckId(decklist.id, decklist.setType )" [routerLink]="['/deck-details/', decklist.nome]">
-                        {{decklist.nome}}
-                        </a> } @else { <a name="{{decklist.id}}" (click)="storeDeckId(decklist.id, decklist.setType)" [routerLink]="['/user-deck-details/', decklist.nome]">
-                        {{decklist.nome}}
-                        </a> } </div>
-                         @if(source == 'USER'){ 
-                        <div class="edit-remove-list">
-                            <span style="font-size:x-small; color: #ccc; font-weight: bold; ">Total you have:</span>
-                            <br> 
-                            @if(decklist.setType == 'DECK'){ 
-                                <a *ngIf="" name="{{decklist.id}}" [routerLink]="['/userdeck-details/', decklist.nome]" (click)="storeDeckId(decklist.id, decklist.setType)">
-                                    <button type="button" class="btn btn-outline-warning btn-sm"> Edit </button>
-                                </a> &nbsp; 
-                            } @else { 
-                                <a name="{{decklist.id}}" [routerLink]="['/user-setcollection-cards/', decklist.nome]" (click)="storeDeckId(decklist.id, decklist.setType)">
-                                    <button type="button" class="btn btn-outline-warning btn-sm"> Edit </button>
-                                </a> &nbsp; 
-                            } 
-                            <button type="button" class="btn btn-outline-danger btn-sm" title="Delete from your collection" id="{{decklist.id}}" 
-                            (click)="removeSetToUserCollection($event)">Remove </button>
-                    </div> }
-                    
-                    </div>
-                    </div>
-            } 
-
-            </div>
-        </mat-tab>
-        </mat-tab-group> 
-    }
-    <!--PAGINAÇÃO-->
-    <!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
-    <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
-  </div>
-  <app-footer></app-footer>
+    </mat-tab>
+  </mat-tab-group>
+  }
+  <!--PAGINAÇÃO-->
+  <!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
+  <pagination-controls
+    (pageChange)="handlePageChange($event)"
+  ></pagination-controls>
+</div>

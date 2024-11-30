@@ -10,7 +10,7 @@ import { GeneralFunctions } from '../../util/GeneralFunctions';
 import {Chart} from 'chart.js';
 import { PageHeaderComponent } from "../shared/page-header/page-header.component";
 import { CommonModule, SlicePipe } from '@angular/common';
-import { RouterlinkStoreIdComponent } from "../routerlink-store-id/routerlink-store-id.component";
+import { RouterlinkStoreIdComponent } from "../shared/routerlink-store-id/routerlink-store-id.component";
 import { MatIconModule } from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';

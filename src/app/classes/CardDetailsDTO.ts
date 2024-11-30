@@ -4,7 +4,7 @@ export class CardDetailsDTO {
     id?: number;
     numero?: number;
     categoria?: string;
-    nome?: string
+    nome!: string
     atributo?:any[]
     propriedade?: string;
     nivel?: number;

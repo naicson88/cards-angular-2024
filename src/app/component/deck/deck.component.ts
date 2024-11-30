@@ -11,11 +11,19 @@ import { applyLoader } from '../../util/Decorators';
 import { DialogTypeEnum } from '../../enums/DialogTypeEnum';
 import { GeneralFunctions } from '../../util/GeneralFunctions';
 import { MatAutocomplete, MatOption } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { AddToCollectionComponent } from '../shared/add-to-collection/add-to-collection.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-deck',
   standalone: true,
-  imports: [MatAutocomplete, MatOption, RouterLink],
+  imports: [MatAutocomplete, MatOption, RouterLink, MatIconModule, MatMenuModule, MatTabsModule, MatAutocompleteModule, FormsModule, 
+    AddToCollectionComponent, NgxPaginationModule],
   templateUrl: './deck.component.html',
   styleUrl: './deck.component.css'
 })
@@ -34,7 +42,7 @@ export class DeckComponent {
   totalItens = 0;
   set_type!: string;
   source!: string
-  deck!: DeckDTO[]
+  decks!: DeckDTO[]
   relUserDeck!: any[];
   safeUrl!: SafeUrl;
   arrayAutocomplete: any[] = [];
@@ -74,13 +82,13 @@ export class DeckComponent {
                      
             const {content, totalElements} = data;
             //console.log(data);
-            this.deck = content;
+            this.decks = content;
         
             this.totalItens = totalElements;
       
-            for(let i = 0; i < this.deck.length; i++){
+            for(let i = 0; i < this.decks.length; i++){
               //Angular apresentava como se o link da imagem fosse unsafe/perigoso
-              let img = this.deck[i].imagem
+              let img = this.decks[i].imagem
               if(img != undefined){
                   this.safeUrl = this.domSanitizer.bypassSecurityTrustUrl(img);  
               }
@@ -121,7 +129,7 @@ export class DeckComponent {
        
        let qtdCardManeged:number;
        let setId = event.target.id
-       let i = this.deck.findIndex(deck => deck.id == setId);
+       let i = this.decks.findIndex(deck => deck.id == setId);
  
        let conf= confirm("Are you sure you want to delete from your collection?")
  
@@ -130,7 +138,7 @@ export class DeckComponent {
          if(this.set_type == 'DECK'){
            this.service.removeDeckToUsersCollection(setId).subscribe(data => {
              qtdCardManeged = data;   
-               this.toastr.warning('The Deck has been removed from your collection! Plus ' + qtdCardManeged + ' cards of this deck.', 'Success!');
+               this.toastr.warning('The Deck has been removed from your collection! Plus ' + qtdCardManeged + ' cards of this.decks.', 'Success!');
           
            }, error => {
              console.log(error)
@@ -150,7 +158,7 @@ export class DeckComponent {
            })
          }
  
-         this.deck.splice(i, 1);
+         this.decks.splice(i, 1);
  
        } else {
            return false;
@@ -158,7 +166,7 @@ export class DeckComponent {
      }
  
    ordenacaoArrayAPI(){
-     this.deck.sort(function(a: any,b: any){
+     this.decks.sort(function(a: any,b: any){
        return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;  
      })
    }
@@ -204,9 +212,9 @@ export class DeckComponent {
              else
                this.toastr.warning("No Set found with this name in yout collection")
          } else {
-           this.deck = [];
-           this.deck = decksFound;
-           this.toastr.success(this.deck.length + " Set(s) found")
+           this.decks = [];
+           this.decks = decksFound;
+           this.toastr.success(this.decks.length + " Set(s) found")
          }
        
      })
@@ -221,7 +229,7 @@ export class DeckComponent {
      }
  
      this.set_type = setType;
-     this.deck = [];
+     this.decks = [];
      this.totalItens = 0;
  
      this.getDecksInfo();

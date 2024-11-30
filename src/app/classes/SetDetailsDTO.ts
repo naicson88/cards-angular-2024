@@ -2,7 +2,7 @@ import { InsideDeckDTO } from "./InsideDeckDTO";
 
 export class SetDetailsDTO {
 
-    id?:number;
+    id!:number;
     nome?:string;
     nomePortugues?:string;
     qtd_cards?:number;
@@ -27,6 +27,7 @@ export class SetDetailsDTO {
     imgurUrl?: string;
     imagem?:string
     setCode?:string
-    description?:string
+    description?:string;
+    quantityUserHave!: number
 }
 
