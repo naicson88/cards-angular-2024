@@ -47,7 +47,7 @@ export class DeckService {
 
   public editDeck(id:any, setSource:string) {
 
-    return this.http.get<DeckDTO>(this.base_url+`/userDeck/edit-deck?id=${id}&setSource=${setSource}`) 
+    return this.http.get<any>(this.base_url+`/userDeck/edit-deck?id=${id}&setSource=${setSource}`) 
     .pipe(
       catchError(HandleErros.handleError)
     )
