@@ -3,7 +3,7 @@ export class RelDeckCardsDTO {
     deckId?: number;
     card_set_code?:string;
     card_price?:number;
-    card_raridade?:string;
+    card_raridade!:string;
     isSideDeck?: boolean;
     cardNumber?: number;
     cardId?: number
@@ -19,4 +19,5 @@ export class RelDeckCardsDTO {
     quantity?:number;
     setRarityCode?:string;
     rarityDetails?:string;
+    cardSetCode?: string
 }

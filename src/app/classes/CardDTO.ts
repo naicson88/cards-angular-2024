@@ -4,7 +4,7 @@ import { RelDeckCardsDTO } from "./RelDeckCardsDTO";
 export class CardDTO {
 	 angularId?:string;
      id?:number;
-	 numero?: number;
+	 numero!: number;
 	 categoria?: string;
 	 nome?: string;
 	 nomePortugues?:string
@@ -18,7 +18,7 @@ export class CardDTO {
 	 descricao?:string
 	 descricaoPortugues?:string
 	 imagem?:string
-	 raridade?:string
+	 raridade!:string
 	 escala?:number;
 	 descr_pendulum?:string
 	 descr_pendulum_pt?:string
