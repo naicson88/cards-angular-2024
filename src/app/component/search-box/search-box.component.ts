@@ -17,6 +17,7 @@ import {MatInputModule} from '@angular/material/input'
 import { CommonModule } from '@angular/common';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-search-box',
@@ -30,7 +31,10 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-  MatCheckbox],
+    MatCheckbox,
+    MatSelect,
+    MatOption
+],
   templateUrl: './search-box.component.html',
   styleUrl: './search-box.component.css'
 })
