@@ -31,7 +31,7 @@ export class AddToCollectionComponent {
           qtdCardManeged = data;
 
           if(qtdCardManeged == 0)
-            return false;
+            return;
   
           if(qtdCardManeged > 0){
             this.toastr.success('The Set has been added to your collection! Plus', 'Success!');
