@@ -34,12 +34,12 @@
               
                <div>
                 <a  name="teste" [routerLink]="['/userdeck-details/', 'name']" *ngIf="deckDetails.setType == 'DECK'"
-                   (click)="storeDeckId(deckDetails?.id)" >
+                   (click)="storeDeckId(deckDetails.id)" >
                   <button type="button" class="btn btn-outline-warning btn-lg"> Edit  </button>
                 </a> 
     
                 <a  name="teste" [routerLink]="['/user-setcollection-cards/', 'name']" *ngIf="deckDetails.setType != 'DECK'"
-                (click)="storeDeckId(deckDetails?.id)" >
+                (click)="storeDeckId(deckDetails.id)" >
                <button type="button" class="btn btn-outline-warning btn-lg"> Edit  </button>
                 </a> 
     
@@ -49,7 +49,7 @@
          
         
         <!--Raridade-->
-        @if(arrInsideDecksCards[0]?.cards != undefined && arrInsideDecksCards[0].cards.length > 0){
+        @if(arrInsideDecksCards[0].cards != undefined && arrInsideDecksCards[0].cards.length > 0){
             <div class="row" style="border: gold solid thin;">
   
                 <div id="rarity">
@@ -84,7 +84,7 @@
   
       </div>
       
-      @if(deckDetails?.description != null){
+      @if(deckDetails.description != null){
         <div id="set-description" >
             <mat-accordion>
               <mat-expansion-panel >
@@ -93,7 +93,7 @@
                       <span> Description</span>
                   </mat-panel-description>
                 </mat-expansion-panel-header>    
-                <div style=" font-size: 16px !important; line-height: 25px;" [innerHTML]="deckDetails?.description">
+                <div style=" font-size: 16px !important; line-height: 25px;" [innerHTML]="deckDetails.description">
                      
                 </div>
               </mat-expansion-panel>

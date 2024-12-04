@@ -8,12 +8,12 @@
         <div id="deck-name-div">         
             <mat-form-field appearance="fill" style="width: 100%;">
                 <mat-label>Deck Name</mat-label>
-                <input matInput [value]="deck?.nome"  #deckName maxlength="80">
+                <input matInput [value]="deck.nome"  #deckName maxlength="80">
                 <mat-hint>Deck Code: <b>{{deck.id}}</b></mat-hint>
             </mat-form-field>
         </div>
         <div  id="deck-image-div" *ngIf="deck.id > 0">
-            <img [src]="deck?.imagem" alt="Deck Image" width="65px" height="80px" >
+            <img [src]="deck.imagem" alt="Deck Image" width="65px" height="80px" >
         </div>
        
         <div style="color: green;">
@@ -299,7 +299,7 @@
 
                     </div>
 
-                    <div style="width: 70%; display: inline-block; background: ghostwhite; height: 92px;  float: right;  border-collapse:collapse;
+                    <div style="width: 70%; display: inline-block; background: ghostwhite; height: 92px;  border-collapse:collapse;
                 display : table;">
                         <a [routerLink]="['/card-detail/', item?.nome]" (click)="storedCardId(item.numero)">
                             <span

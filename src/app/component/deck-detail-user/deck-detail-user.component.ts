@@ -259,7 +259,7 @@ setRelDeckCardsTypeDeck(card:CardDTO){
     let relIndex = this.relDeckCards.findIndex(rel => rel.cardId === card.id);
     if(rel == undefined || rel == null){
       this.dialogUtils.showDialog("Sorry, some error happened, try again later!", DialogTypeEnum.ERROR);
-      return false;
+      return;
     }
   
    let arr = []

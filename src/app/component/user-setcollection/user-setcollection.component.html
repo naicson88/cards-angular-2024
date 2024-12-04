@@ -7,7 +7,7 @@
       <div style="width: 35%">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Collection Name</mat-label>
-          <input matInput [value]="userSetCollecton?.name"  maxlength="80" #nameInput>
+          <input matInput [value]="userSetCollecton.name"  maxlength="80" #nameInput>
           <mat-hint>Deck Code: <b>{{userSetCollecton.id}}</b></mat-hint>
         </mat-form-field>
   
@@ -150,18 +150,18 @@
     <div id="divAllCards">
   
       <!--Empty Collection-->
-      <div *ngIf="userSetCollecton?.cards == undefined " id="empty-set" class="row">
+      <div *ngIf="userSetCollecton.cards == undefined " id="empty-set" class="row">
         <p>
           <i>This Collection is empty, choose some Cards and Add on it!!</i>
         </p>
       </div>
   
       <!--Div Single Card-->
-      <div class="divSingleCard" *ngFor="let card of userSetCollecton?.cards">
+      <div class="divSingleCard" *ngFor="let card of userSetCollecton.cards">
         <!-- [ngClass]="card.quantityOtherCollections > 0 ? 'shadow-gold' : 'shadow-blue'" -->
         <div class="div-price-rarity" [style.display]="isVisible ? 'flex' : 'none'">
           <!--Price div-->
-          <div style="color: green; font-size: small; width: fit-content; display: inline-block; float: left;">
+          <div style="color: green; font-size: small; width: fit-content; display: inline-block;">
             <span> {{card.relDeckCards.card_price | currency : 'USD'}}</span>
           </div>
           <!--Rarity div-->

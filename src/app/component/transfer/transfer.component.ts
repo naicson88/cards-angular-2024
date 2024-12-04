@@ -249,7 +249,7 @@ export class TransferComponent {
 
   transferCardToLeft(card: CardSetCollectionDTO) {
     if (!this.validQtdCardsDeck(this.leftUserSetCollecton, card.cardId))
-      return false;
+      return;
 
     this.spliceOrSubtractCard(this.rightUserSetCollection, card);
     this.tranferCardAndCalculate(this.leftUserSetCollecton, card);
@@ -271,7 +271,7 @@ export class TransferComponent {
 
   transferCardToRight(card: CardSetCollectionDTO) {
     if (!this.validQtdCardsDeck(this.rightUserSetCollection, card.cardId))
-      return false;
+      return;
 
     this.spliceOrSubtractCard(this.leftUserSetCollecton, card);
 
