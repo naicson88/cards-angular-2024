@@ -17,7 +17,7 @@ export class CardDTO {
 	 condicao?:string;
 	 descricao?:string
 	 descricaoPortugues?:string
-	 imagem?:string
+	 imagem!:string
 	 raridade!:string
 	 escala?:number;
 	 descr_pendulum?:string

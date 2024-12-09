@@ -6,6 +6,7 @@ import { catchError, Observable } from 'rxjs';
 import { HandleErros } from '../util/HandleErros';
 import { RelDeckCardsDTO } from '../classes/RelDeckCardsDTO';
 import { SearchCriteriaDTO } from '../classes/SearchCriteriaDTO';
+import { CardOfUserDetailDTO } from '../classes/CardOfUserDetailDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +68,7 @@ export class CardService {
       )
   }
 
-  public randomCardDTOs(){
+  public randomCards(){
     return this.http.get<CardDTO[]>(this.base_url+"/cards/randomCards")
     .pipe(
       catchError(HandleErros.handleError)
@@ -89,7 +90,7 @@ export class CardService {
   } 
 
   public cardOfUserDetails(cardId:number) {
-    return this.http.get<any>(this.base_url+`/cards/card-user-details?cardId=${cardId}`)
+    return this.http.get<CardOfUserDetailDTO>(this.base_url+`/cards/card-user-details?cardId=${cardId}`)
     .pipe(
         catchError(HandleErros.handleError)
       )
